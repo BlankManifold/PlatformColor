@@ -26,3 +26,4 @@ StateName = "Idle"
 script = ExtResource("4_ddra3")
 _controlledNode = NodePath("../..")
 StateName = "Jump"
+JumpVelocity = 500.0

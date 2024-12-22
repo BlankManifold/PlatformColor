@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 namespace PlatFormColor.scripts.Player
@@ -12,13 +13,16 @@ namespace PlatFormColor.scripts.Player
         [Export]
         public string StateName { get; set; }
 
+        [Export(PropertyHint.Range, "0, 500, 50")]
+        public float JumpVelocity { get; set; }
+
 
         public void Enter(string prevStateName = null)
         {
             if (prevStateName == "Idle")
             {
                 Vector2 velocity = _controlledNode.Velocity;
-                velocity.Y -= 100;
+                velocity.Y -= JumpVelocity;
 
                 _controlledNode.Velocity = velocity;
                 return;

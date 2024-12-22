@@ -1,5 +1,6 @@
-using System;
 using Godot;
+
+using SCs = System.Collections.Generic;
 
 namespace PlatFormColor.scripts.Player
 {
@@ -7,10 +8,17 @@ namespace PlatFormColor.scripts.Player
 	{
 		public const float Speed = 300.0f;
 		public const float JumpVelocity = -400.0f;
+		private SCs::List<Interfaces.IPhysicsModifier> _physicsModifierList = new();
 
-
+		public override void _Ready()
+		{
+			base._Ready();
+			_physicsModifierList.Add(new GravityModifier());
+		}
 		public override void _PhysicsProcess(double delta)
 		{
+			foreach (var modifier in _physicsModifierList)
+				modifier.Apply(this, delta);
 			// Vector2 velocity = Velocity;
 
 			// // Add the gravity.
