@@ -19,7 +19,7 @@ namespace PlatFormColor.scripts.Player
 
         public void Enter(string prevStateName = null)
         {
-            if (prevStateName == "Idle")
+            if (prevStateName == "Idle" || prevStateName == "Move")
             {
                 Vector2 velocity = _controlledNode.Velocity;
                 velocity.Y -= JumpVelocity;
@@ -39,12 +39,25 @@ namespace PlatFormColor.scripts.Player
             if (_controlledNode.IsOnFloor())
             {
                 RequestTransition?.Invoke("Idle");
+                return;
             }
+
+            ProcessInput();
         }
 
         public void Process(double delta)
         {
             return;
         }
+
+        private void ProcessInput()
+        {
+            if (_MovePressed())
+            {
+                RequestTransition?.Invoke("Move");
+                return;
+            }
+        }
+        private bool _MovePressed() => Input.IsActionJustPressed("player_move_right") || Input.IsActionJustPressed("player_move_left");
     }
 }

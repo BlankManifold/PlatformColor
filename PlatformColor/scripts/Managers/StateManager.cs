@@ -35,6 +35,13 @@ namespace PlatFormColor.scripts.Managers
         }
         #endregion
 
+        #region 
+        public string GetCurrentStateName()
+        {
+            return _currentState?.StateName;
+        }
+        #endregion
+
         #region Private Methods
         private void _ChangeState(string nextStateName)
         {

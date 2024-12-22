@@ -1,5 +1,4 @@
 using Godot;
-
 using SCs = System.Collections.Generic;
 
 namespace PlatFormColor.scripts.Player
@@ -9,14 +8,21 @@ namespace PlatFormColor.scripts.Player
 		public const float Speed = 300.0f;
 		public const float JumpVelocity = -400.0f;
 		private SCs::List<Interfaces.IPhysicsModifier> _physicsModifierList = new();
+		private Managers.StateManager _stateManager;
 
 		public override void _Ready()
 		{
 			base._Ready();
+
+			_stateManager = GetNode<Managers.StateManager>("%StateManager");
+
 			_physicsModifierList.Add(new GravityModifier());
+			_physicsModifierList.Add(new FrictionModifier(200f));
 		}
 		public override void _PhysicsProcess(double delta)
 		{
+			GetNode<Label>("Label").Text = _stateManager.GetCurrentStateName();
+
 			foreach (var modifier in _physicsModifierList)
 				modifier.Apply(this, delta);
 			// Vector2 velocity = Velocity;

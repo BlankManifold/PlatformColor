@@ -20,7 +20,17 @@ namespace PlatFormColor.scripts.Player
         {
             return;
         }
-        public void ProcessInput()
+        public void PhysicsProcess(double delta)
+        {
+            ProcessInput();
+            return;
+        }
+        public void Process(double delta)
+        {
+            return;
+        }
+
+        private void ProcessInput()
         {
             if (_JumpPressed())
             {
@@ -34,17 +44,7 @@ namespace PlatFormColor.scripts.Player
                 return;
             }
         }
-        public void PhysicsProcess(double delta)
-        {
-            ProcessInput();
-            return;
-        }
-        public void Process(double delta)
-        {
-            return;
-        }
-
-        private bool _JumpPressed() => Input.IsActionJustPressed("player_jump"); //&& _controlledNode.IsOnFloor();
+        private bool _JumpPressed() => Input.IsActionJustPressed("player_jump") && _controlledNode.IsOnFloor();
         private bool _MovePressed() => Input.IsActionJustPressed("player_move_right") || Input.IsActionJustPressed("player_move_left");
     }
 }
