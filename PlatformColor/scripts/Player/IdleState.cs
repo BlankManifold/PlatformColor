@@ -1,25 +1,50 @@
+using Godot;
+
 namespace PlatFormColor.scripts.Player
 {
-    public class IdleState : Interfaces.IState
+    public partial class IdleState : Node, Interfaces.IState
     {
-        public void Enter()
+        public event Interfaces.Notify RequestTransition;
+
+        [Export(PropertyHint.NodePathToEditedNode)]
+        public CharacterBody2D _controlledNode = null;
+        [Export]
+        public string StateName { get; set; }
+
+
+        public void Enter(string prevStateName = null)
         {
-            throw new System.NotImplementedException();
+            return;
+        }
+        public void Exit(string nextStateName)
+        {
+            return;
+        }
+        public void ProcessInput()
+        {
+            if (_JumpPressed())
+            {
+                RequestTransition?.Invoke("Jump");
+                return;
+            }
+
+            if (_MovePressed())
+            {
+                RequestTransition?.Invoke("Move");
+                return;
+            }
+        }
+        public void PhysicsProcess(double delta)
+        {
+            ProcessInput();
+            return;
+        }
+        public void Process(double delta)
+        {
+            return;
         }
 
-        public void Exit()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void PhysicsUpdate(float delta)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Update(float delta)
-        {
-            throw new System.NotImplementedException();
-        }
+        private bool _JumpPressed() => Input.IsActionJustPressed("player_jump"); //&& _controlledNode.IsOnFloor();
+        private bool _MovePressed() => Input.IsActionJustPressed("player_move_right") || Input.IsActionJustPressed("player_move_left");
     }
 }

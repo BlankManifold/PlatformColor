@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://cf10udmqsqqlt"]
+
+[ext_resource type="Script" path="res://scripts/Player/Player.cs" id="1_hywhq"]
+[ext_resource type="Script" path="res://scripts/Managers/StateManager.cs" id="2_klyvp"]
+[ext_resource type="Script" path="res://scripts/Player/IdleState.cs" id="3_xyo7w"]
+[ext_resource type="Script" path="res://scripts/Player/JumpState.cs" id="4_ddra3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ptjd2"]
+size = Vector2(100, 100)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_hywhq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ptjd2")
+
+[node name="StateManager" type="Node" parent="."]
+script = ExtResource("2_klyvp")
+
+[node name="IdleState" type="Node" parent="StateManager" node_paths=PackedStringArray("_controlledNode")]
+script = ExtResource("3_xyo7w")
+_controlledNode = NodePath("../..")
+StateName = "Idle"
+
+[node name="JumpState" type="Node" parent="StateManager" node_paths=PackedStringArray("_controlledNode")]
+script = ExtResource("4_ddra3")
+_controlledNode = NodePath("../..")
+StateName = "Jump"
