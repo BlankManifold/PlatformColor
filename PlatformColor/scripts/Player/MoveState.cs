@@ -15,8 +15,11 @@ namespace PlatFormColor.scripts.Player
         [Export(PropertyHint.Range, "0, 1000, 50")]
         public float Speed { get; set; }
 
+        private int _direction = 0;
+
         public void Enter(string prevStateName = null)
         {
+            _UpdateDirection();
             return;
         }
 
@@ -27,20 +30,11 @@ namespace PlatFormColor.scripts.Player
 
         public void PhysicsProcess(double delta)
         {
-            float direction = Mathf.Sign(Input.GetAxis("player_move_left", "player_move_right"));
-            if (direction != 0)
-            {
-                Vector2 velocity = _controlledNode.Velocity;
-                velocity.X = direction * Speed;
-                _controlledNode.Velocity = velocity;
-            }
-            else
-            {
-                GD.Print("Zero");
-            }
+            Vector2 velocity = _controlledNode.Velocity;
+            velocity.X = _direction * Speed;
+            _controlledNode.Velocity = velocity;
 
-
-            ProcessInput();
+            _ProcessInput();
             return;
         }
 
@@ -49,7 +43,7 @@ namespace PlatFormColor.scripts.Player
             return;
         }
 
-        private void ProcessInput()
+        private void _ProcessInput()
         {
             if (_JumpPressed())
             {
@@ -62,8 +56,40 @@ namespace PlatFormColor.scripts.Player
                 return;
             }
 
+            _UpdateDirection();
+
             return;
         }
+        private void _UpdateDirection()
+        {
+            if (Input.IsActionJustPressed("player_move_right"))
+            {
+                _direction = 1;
+                return;
+            }
+
+            if (Input.IsActionJustPressed("player_move_left"))
+            {
+                _direction = -1;
+                return;
+            }
+
+            if (Input.IsActionJustReleased("player_move_right") && Input.IsActionPressed("player_move_left"))
+            {
+                _direction = -1;
+                return;
+            }
+            if (Input.IsActionJustReleased("player_move_left") && Input.IsActionPressed("player_move_right"))
+            {
+                _direction = 1;
+                return;
+            }
+
+
+
+            return;
+        }
+
         private bool _JumpPressed() => Input.IsActionJustPressed("player_jump") && _controlledNode.IsOnFloor();
         private bool _MoveNotPressed() => !(Input.IsActionPressed("player_move_right") || Input.IsActionPressed("player_move_left"));
     }

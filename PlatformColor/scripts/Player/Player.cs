@@ -22,9 +22,6 @@ namespace PlatFormColor.scripts.Player
 		public override void _PhysicsProcess(double delta)
 		{
 			GetNode<Label>("Label").Text = _stateManager.GetCurrentStateName();
-			GetNode<Label>("Label").Text += "\n" + Input.GetActionStrength("player_move_left");
-			GetNode<Label>("Label").Text += "\n" + Input.GetActionStrength("player_move_right");
-			GetNode<Label>("Label").Text += "\n" + Mathf.Sign(Input.GetAxis("player_move_left", "player_move_right"));
 
 			foreach (var modifier in _physicsModifierList)
 				modifier.Apply(this, delta);
