@@ -30,11 +30,11 @@ namespace PlatFormColor.scripts.Player
 
         public void PhysicsProcess(double delta)
         {
+            _ProcessInput();
+
             Vector2 velocity = _controlledNode.Velocity;
             velocity.X = _direction * Speed;
             _controlledNode.Velocity = velocity;
-
-            _ProcessInput();
             return;
         }
 
@@ -74,18 +74,12 @@ namespace PlatFormColor.scripts.Player
                 return;
             }
 
-            if (Input.IsActionJustReleased("player_move_right") && Input.IsActionPressed("player_move_left"))
+            int direction = (int)Input.GetAxis("player_move_left", "player_move_right");
+            if (direction != 0)
             {
-                _direction = -1;
+                _direction = direction;
                 return;
             }
-            if (Input.IsActionJustReleased("player_move_left") && Input.IsActionPressed("player_move_right"))
-            {
-                _direction = 1;
-                return;
-            }
-
-
 
             return;
         }
