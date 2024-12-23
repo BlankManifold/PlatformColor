@@ -9,4 +9,5 @@ Main meta-objectives:
   * [Finite State Machine in Godot 4.3 Made easy "From Idle to Dashing"](https://www.youtube.com/watch?v=yAMgT28kYsc) by DeeRaghooGames
   * [The First Skill GODOT Beginners Should Learn - State Machine Game Showcase](https://www.youtube.com/watch?v=ExuzWQ077n4) by Chap.C Creates
   * [State Machine Setup for 2D Platformer Character ~ Godot 4 GameDev Tutorial](https://www.youtube.com/watch?v=fuGiJdMrCAk) by Chris' Tutorials
+* A bit of "healthy" over-engineering
 * Spend some free time in a meaningful way

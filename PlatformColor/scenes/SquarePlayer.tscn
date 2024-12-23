@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://5hkyi01q3i1e"]
+
+[ext_resource type="PackedScene" uid="uid://cf10udmqsqqlt" path="res://scenes/Player.tscn" id="1_ao1h2"]
+[ext_resource type="Script" path="res://scripts/Player/SquarePlayer.cs" id="2_ded0t"]
+[ext_resource type="Resource" uid="uid://ihtq67bifsge" path="res://resources/SquarePlayerStandard.tres" id="3_fp0yv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i13g6"]
+
+[node name="SquarePlayer" instance=ExtResource("1_ao1h2")]
+script = ExtResource("2_ded0t")
+_res = ExtResource("3_fp0yv")
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("RectangleShape2D_i13g6")
+
+[node name="IdleState" parent="StateManager" index="0" node_paths=PackedStringArray("_controlledNode")]
+_controlledNode = NodePath("../..")
+
+[node name="JumpState" parent="StateManager" index="1" node_paths=PackedStringArray("_controlledNode")]
+_controlledNode = NodePath("../..")
+
+[node name="MoveState" parent="StateManager" index="2" node_paths=PackedStringArray("_controlledNode")]
+_controlledNode = NodePath("../..")
+
+[node name="Label" parent="." index="2"]
+offset_top = -154.0
+offset_bottom = -131.0
+
+[node name="ColorRect" type="ColorRect" parent="." index="3"]

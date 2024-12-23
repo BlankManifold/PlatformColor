@@ -5,53 +5,30 @@ namespace PlatFormColor.scripts.Player
 {
 	public partial class Player : CharacterBody2D
 	{
-		public const float Speed = 300.0f;
-		public const float JumpVelocity = -400.0f;
-		private SCs::List<Interfaces.IPhysicsModifier> _physicsModifierList = new();
-		private Managers.StateManager _stateManager;
+		protected SCs::List<Interfaces.IPhysicsModifier> _physicsModifierList = new();
+		protected Managers.StateManager _stateManager;
+
+		[Export(PropertyHint.ResourceType)]
+		protected Resources.PlayerRes _res = null;
 
 		public override void _Ready()
 		{
 			base._Ready();
 
 			_stateManager = GetNode<Managers.StateManager>("%StateManager");
-
-			_physicsModifierList.Add(new GravityModifier());
-			_physicsModifierList.Add(new FrictionModifier(200f));
+			_physicsModifierList.Add(new GravityModifier(_res.GetGlobalPhysicsProperty("Gravity")));
+			_physicsModifierList.Add(new FrictionModifier(_res.GetGlobalPhysicsProperty("Friction")));
 		}
 		public override void _PhysicsProcess(double delta)
 		{
 			GetNode<Label>("Label").Text = _stateManager.GetCurrentStateName();
+			GetNode<Label>("Label").Text += "\n" + Input.GetActionStrength("player_move_left");
+			GetNode<Label>("Label").Text += "\n" + Input.GetActionStrength("player_move_right");
+			GetNode<Label>("Label").Text += "\n" + Mathf.Sign(Input.GetAxis("player_move_left", "player_move_right"));
 
 			foreach (var modifier in _physicsModifierList)
 				modifier.Apply(this, delta);
-			// Vector2 velocity = Velocity;
 
-			// // Add the gravity.
-			// if (!IsOnFloor())
-			// {
-			// 	velocity += GetGravity() * (float)delta;
-			// }
-
-			// // Handle Jump.
-			// if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
-			// {
-			// 	velocity.Y = JumpVelocity;
-			// }
-
-			// // Get the input direction and handle the movement/deceleration.
-			// // As good practice, you should replace UI actions with custom gameplay actions.
-			// Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-			// if (direction != Vector2.Zero)
-			// {
-			// 	velocity.X = direction.X * Speed;
-			// }
-			// else
-			// {
-			// 	velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-			// }
-
-			// Velocity = velocity;
 			MoveAndSlide();
 		}
 	}

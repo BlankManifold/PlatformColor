@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="SquarePlayerRes" load_steps=2 format=3 uid="uid://ihtq67bifsge"]
+
+[ext_resource type="Script" path="res://scripts/Resources/SquarePlayerRes.cs" id="1_csjwg"]
+
+[resource]
+script = ExtResource("1_csjwg")
+LandingColor = Color(1, 0, 0, 1)
+DroppedColor = Color(0, 1, 0, 1)
+Size = Vector2(100, 100)
+GlobalPhysicsProperties = {
+"friction": 200.0,
+"gravity": 1.0
+}

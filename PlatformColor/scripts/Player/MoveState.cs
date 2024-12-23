@@ -28,12 +28,15 @@ namespace PlatFormColor.scripts.Player
         public void PhysicsProcess(double delta)
         {
             float direction = Mathf.Sign(Input.GetAxis("player_move_left", "player_move_right"));
-
             if (direction != 0)
             {
                 Vector2 velocity = _controlledNode.Velocity;
                 velocity.X = direction * Speed;
                 _controlledNode.Velocity = velocity;
+            }
+            else
+            {
+                GD.Print("Zero");
             }
 
 
