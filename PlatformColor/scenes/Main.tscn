@@ -1,17 +1,29 @@
-[gd_scene load_steps=3 format=3 uid="uid://bw4wb0ac1r2c4"]
+[gd_scene load_steps=5 format=3 uid="uid://bw4wb0ac1r2c4"]
 
 [ext_resource type="PackedScene" uid="uid://5hkyi01q3i1e" path="res://scenes/SquarePlayer.tscn" id="1_qxjpd"]
+[ext_resource type="PackedScene" uid="uid://cn4jvd1oxf1p0" path="res://scenes/Platform.tscn" id="2_aq5w0"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_de0op"]
-size = Vector2(1282, 50)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ycoim"]
+size = Vector2(1200, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iqpio"]
+size = Vector2(200, 100)
 
 [node name="Main" type="Node"]
 
 [node name="SquarePlayer" parent="." instance=ExtResource("1_qxjpd")]
 
-[node name="Area2D" type="StaticBody2D" parent="."]
-position = Vector2(622, 653)
-disable_mode = 1
+[node name="Floor" parent="." instance=ExtResource("2_aq5w0")]
+position = Vector2(573, 608)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("RectangleShape2D_de0op")
+[node name="CollisionShape2D" parent="Floor" index="0"]
+shape = SubResource("RectangleShape2D_ycoim")
+
+[node name="Box1" parent="." instance=ExtResource("2_aq5w0")]
+position = Vector2(744, 549)
+
+[node name="CollisionShape2D" parent="Box1" index="0"]
+shape = SubResource("RectangleShape2D_iqpio")
+
+[editable path="Floor"]
+[editable path="Box1"]

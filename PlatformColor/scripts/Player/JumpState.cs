@@ -58,6 +58,6 @@ namespace PlatFormColor.scripts.Player
                 return;
             }
         }
-        private bool _MovePressed() => Input.IsActionJustPressed("player_move_right") || Input.IsActionJustPressed("player_move_left");
+        private bool _MovePressed() => Input.IsActionPressed("player_move_right") || Input.IsActionPressed("player_move_left");
     }
 }
