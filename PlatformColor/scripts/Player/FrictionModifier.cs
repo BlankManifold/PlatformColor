@@ -4,9 +4,13 @@ namespace PlatFormColor.scripts.Player
 {
     public class FrictionModifier : Interfaces.IPhysicsModifier
     {
-        private readonly float _frictionFactor = 0f;
+        private float _frictionFactor = 0f;
 
         public FrictionModifier(float frictionFactor = 0f)
+        {
+            _frictionFactor = frictionFactor;
+        }
+        public void UpdateFriction(float frictionFactor = 0f)
         {
             _frictionFactor = frictionFactor;
         }

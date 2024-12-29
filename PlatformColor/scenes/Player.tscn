@@ -24,10 +24,12 @@ script = ExtResource("4_ddra3")
 StateName = "Jump"
 JumpVelocity = 500.0
 
-[node name="MoveState" type="Node" parent="StateManager"]
+[node name="MoveState" type="Node" parent="StateManager" node_paths=PackedStringArray("_controlledNode")]
 script = ExtResource("5_s4o1e")
+_controlledNode = NodePath("../..")
 StateName = "Move"
-Speed = 200.0
+GroundSpeed = 200.0
+AirealSpeed = 100.0
 
 [node name="Label" type="Label" parent="."]
 offset_left = -18.0

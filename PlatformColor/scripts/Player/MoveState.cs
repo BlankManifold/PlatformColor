@@ -13,27 +13,32 @@ namespace PlatFormColor.scripts.Player
         public string StateName { get; set; }
 
         [Export(PropertyHint.Range, "0, 1000, 50")]
-        public float Speed { get; set; }
+        public float GroundSpeed { get; set; }
+        [Export(PropertyHint.Range, "0, 1000, 50")]
+        public float AirealSpeed { get; set; }
 
+
+        private float _speed = 0;
         private int _direction = 0;
 
         public void Enter(string prevStateName = null)
         {
             _UpdateDirection();
-            return;
         }
 
         public void Exit(string nextStateName)
         {
+
             return;
         }
 
         public void PhysicsProcess(double delta)
         {
             _ProcessInput();
+            _UpdateSpeed();
 
             Vector2 velocity = _controlledNode.Velocity;
-            velocity.X = _direction * Speed;
+            velocity.X = _direction * _speed;
             _controlledNode.Velocity = velocity;
             return;
         }
@@ -82,6 +87,17 @@ namespace PlatFormColor.scripts.Player
             }
 
             return;
+        }
+        private void _UpdateSpeed()
+        {
+            if (_controlledNode.IsOnFloor())
+            {
+                _speed = GroundSpeed;
+            }
+            else
+            {
+                _speed = AirealSpeed;
+            }
         }
 
         private bool _JumpPressed() => Input.IsActionJustPressed("player_jump") && _controlledNode.IsOnFloor();

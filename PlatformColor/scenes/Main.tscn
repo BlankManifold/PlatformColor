@@ -15,12 +15,14 @@ size = Vector2(200, 100)
 
 [node name="Floor" parent="." instance=ExtResource("2_aq5w0")]
 position = Vector2(573, 608)
+_friction = 2.0
 
 [node name="CollisionShape2D" parent="Floor" index="0"]
 shape = SubResource("RectangleShape2D_ycoim")
 
 [node name="Box1" parent="." instance=ExtResource("2_aq5w0")]
 position = Vector2(744, 549)
+_friction = 0.5
 
 [node name="CollisionShape2D" parent="Box1" index="0"]
 shape = SubResource("RectangleShape2D_iqpio")

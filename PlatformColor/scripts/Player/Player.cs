@@ -3,7 +3,7 @@ using SCs = System.Collections.Generic;
 
 namespace PlatFormColor.scripts.Player
 {
-	public partial class Player : CharacterBody2D, Interfaces.IColorChangeable
+	public partial class Player : CharacterBody2D, Interfaces.IColorChangeable, Interfaces.IFrictionChangeable
 	{
 		protected SCs::List<Interfaces.IPhysicsModifier> _physicsModifierList = new();
 		protected SCs::List<Interfaces.IPlatformModifier> _platformModifierList = new();
@@ -19,7 +19,8 @@ namespace PlatFormColor.scripts.Player
 			_stateManager = GetNode<Managers.StateManager>("%StateManager");
 			_physicsModifierList.Add(new GravityModifier(_res.GetGlobalPhysicsProperty("Gravity")));
 			_physicsModifierList.Add(new FrictionModifier(_res.GetGlobalPhysicsProperty("Friction")));
-			_platformModifierList.Add(new PlatFormColorModifier());
+			_platformModifierList.Add(new PlatformColorModifier());
+			_platformModifierList.Add(new PlatformFrictionModifier());
 		}
 
 		public override void _PhysicsProcess(double delta)
@@ -36,7 +37,6 @@ namespace PlatFormColor.scripts.Player
 					modifier.Apply(this, platform, delta);
 			}
 
-
 			MoveAndSlide();
 		}
 
@@ -47,6 +47,15 @@ namespace PlatFormColor.scripts.Player
 		public virtual Color GetColor()
 		{
 			return new Color();
+		}
+		public virtual void ChangeFriction(float friction)
+		{
+
+			return;
+		}
+		public virtual float GetFriction()
+		{
+			return 0f;
 		}
 
 		private Platform.Platform GetCollidedPlatform()

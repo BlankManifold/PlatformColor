@@ -2,8 +2,10 @@ using Godot;
 
 namespace PlatFormColor.scripts.Platform
 {
-	public partial class Platform : StaticBody2D, Interfaces.IColorChangeable
+	public partial class Platform : StaticBody2D, Interfaces.IColorChangeable, Interfaces.IHasFriction
 	{
+		[Export]
+		private float _friction = 1.0f;
 		public override void _Ready()
 		{
 			ColorRect rect = GetNode<ColorRect>("ColorRect");
@@ -20,6 +22,10 @@ namespace PlatFormColor.scripts.Platform
 		public Color GetColor()
 		{
 			return GetNode<ColorRect>("ColorRect").Color;
+		}
+		public float GetFriction()
+		{
+			return _friction;
 		}
 	}
 }

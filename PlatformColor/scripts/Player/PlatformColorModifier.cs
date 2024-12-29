@@ -1,7 +1,7 @@
 
 namespace PlatFormColor.scripts.Player
 {
-    class PlatFormColorModifier : Interfaces.IPlatformModifier
+    class PlatformColorModifier : Interfaces.IPlatformModifier
     {
         private Platform.Platform _previousPlatform = null;
         public void Apply(Player player, Platform.Platform platform, double delta)
