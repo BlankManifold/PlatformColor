@@ -3,7 +3,7 @@ using SCs = System.Collections.Generic;
 
 namespace PlatFormColor.scripts.Player
 {
-	public partial class Player : CharacterBody2D, Interfaces.IColorChangeable, Interfaces.IHasFriction
+	public partial class Player : CharacterBody2D, Interfaces.IColorChangeable, Interfaces.IHasFriction, Interfaces.IHasWeight
 	{
 		protected SCs::List<Interfaces.IPhysicsModifier> _physicsModifierList = new();
 		protected SCs::List<Interfaces.IPlatformModifier> _platformModifierList = new();
@@ -17,9 +17,10 @@ namespace PlatFormColor.scripts.Player
 			base._Ready();
 
 			_stateManager = GetNode<Managers.StateManager>("%StateManager");
-			_physicsModifierList.Add(new GravityModifier(this, _res.GetGlobalPhysicsProperty("Gravity")));
 
+			_physicsModifierList.Add(new GravityModifier(this));
 			_physicsModifierList.Add(new FrictionModifier(this));
+
 			_platformModifierList.Add(new PlatformColorModifier());
 			_platformModifierList.Add(new PlatformFrictionModifier());
 		}
@@ -52,6 +53,10 @@ namespace PlatFormColor.scripts.Player
 		public float GetFriction()
 		{
 			return _res.GetGlobalPhysicsProperty("Friction");
+		}
+		public float GetWeight()
+		{
+			return _res.GetGlobalPhysicsProperty("Weight");
 		}
 
 		private Platform.Platform GetCollidedPlatform()

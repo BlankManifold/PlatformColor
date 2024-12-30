@@ -8,6 +8,6 @@ LandingColor = Color(1, 0, 0, 1)
 DroppedColor = Color(0, 1, 0, 1)
 Size = Vector2(100, 100)
 GlobalPhysicsProperties = {
-"friction": 200.0,
-"gravity": 1.0
+"friction": 100.0,
+"weight": 2.0
 }

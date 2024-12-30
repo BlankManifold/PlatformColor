@@ -2,9 +2,8 @@ using Godot;
 
 namespace PlatFormColor.scripts.Interfaces
 {
-    interface IColorChangeable
+    interface IColorChangeable : IHasColor
     {
         public void ChangeColor(Color color);
-        public Color GetColor();
     }
 }

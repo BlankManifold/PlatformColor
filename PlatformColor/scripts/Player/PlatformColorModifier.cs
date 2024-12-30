@@ -6,17 +6,19 @@ namespace PlatFormColor.scripts.Player
         private Platform.Platform _previousPlatform = null;
         public void Apply(Player player, Platform.Platform platform, double delta)
         {
-            if (
-                platform is not Interfaces.IColorChangeable ||
-                player is not Interfaces.IColorChangeable
-                )
-                return;
-
             if (platform == _previousPlatform)
                 return;
 
-            platform.ChangeColor(player.GetColor());
-            _previousPlatform = platform;
+            if (
+                platform is Interfaces.IColorChangeable platformColorChangeable &&
+                player is Interfaces.IHasColor playerWithColor
+                )
+            {
+                platformColorChangeable.ChangeColor(playerWithColor.GetColor());
+                _previousPlatform = platform;
+            }
+
+            return;
         }
     }
 }

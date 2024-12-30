@@ -5,12 +5,20 @@ namespace PlatFormColor.scripts.Player
     public class GravityModifier : Interfaces.IPhysicsModifier
     {
         private CharacterBody2D _controlledNode = null;
-        private readonly float _gravityFactor = 1.0f;
+        private float _weight = 0f;
 
-        public GravityModifier(CharacterBody2D controlledNode, float gravityFactor = 1.0f)
+        public GravityModifier(CharacterBody2D controlledNode)
         {
             _controlledNode = controlledNode;
-            _gravityFactor = gravityFactor;
+            if (controlledNode is Interfaces.IHasWeight controlledNodeWithGravity)
+            {
+                _controlledNode = controlledNode;
+                _weight = controlledNodeWithGravity.GetWeight();
+            }
+            else
+            {
+                throw new System.Exception("CharacterBody2D is not a IHasWeight");
+            }
         }
         public void Apply(double delta)
         {
@@ -18,7 +26,7 @@ namespace PlatFormColor.scripts.Player
                 return;
 
             Vector2 velocity = _controlledNode.Velocity;
-            velocity += _controlledNode.GetGravity() * _gravityFactor * (float)delta;
+            velocity += _controlledNode.GetGravity() * _weight * (float)delta;
 
             _controlledNode.Velocity = velocity;
         }

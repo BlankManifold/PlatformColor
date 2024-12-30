@@ -13,7 +13,7 @@ namespace PlatFormColor.scripts.Player
         [Export]
         public string StateName { get; set; }
 
-        [Export(PropertyHint.Range, "0, 500, 50")]
+        [Export(PropertyHint.Range, "0, 2000, 50")]
         public float JumpVelocity { get; set; }
 
 
