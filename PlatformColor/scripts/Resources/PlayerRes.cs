@@ -10,5 +10,11 @@ namespace PlatFormColor.scripts.Resources
         GCs::Dictionary<string, float> GlobalPhysicsProperties { get; set; } = new();
 
         public float GetGlobalPhysicsProperty(string propertyName) => GlobalPhysicsProperties[propertyName.ToLower()];
+        public void SetGlobalPhysicsProperty(string propertyName, float value)
+        {
+            GlobalPhysicsProperties[propertyName.ToLower()] = value;
+            return;
+        }
+
     }
 }

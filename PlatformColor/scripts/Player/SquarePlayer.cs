@@ -2,8 +2,9 @@ using Godot;
 
 namespace PlatFormColor.scripts.Player
 {
-    public partial class SquarePlayer : Player
+    public partial class SquarePlayer : Player, Interfaces.IFrictionChangeable
     {
+        public event Interfaces.NotifyValue FrictionChangedEvent;
         private Resources.SquarePlayerRes _promotedRes = null;
         public override void _Ready()
         {
@@ -33,5 +34,11 @@ namespace PlatFormColor.scripts.Player
         {
             return _promotedRes.DroppedColor;
         }
+        public void ChangeFriction(float frictionFactor)
+        {
+            FrictionChangedEvent?.Invoke(frictionFactor);
+            return;
+        }
+
     }
 }

@@ -28,7 +28,7 @@ JumpVelocity = 500.0
 script = ExtResource("5_s4o1e")
 _controlledNode = NodePath("../..")
 StateName = "Move"
-GroundSpeed = 200.0
+GroundSpeed = 483.525
 AirealSpeed = 100.0
 
 [node name="Label" type="Label" parent="."]

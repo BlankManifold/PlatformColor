@@ -3,7 +3,7 @@ using SCs = System.Collections.Generic;
 
 namespace PlatFormColor.scripts.Player
 {
-	public partial class Player : CharacterBody2D, Interfaces.IColorChangeable, Interfaces.IFrictionChangeable
+	public partial class Player : CharacterBody2D, Interfaces.IColorChangeable, Interfaces.IHasFriction
 	{
 		protected SCs::List<Interfaces.IPhysicsModifier> _physicsModifierList = new();
 		protected SCs::List<Interfaces.IPlatformModifier> _platformModifierList = new();
@@ -17,8 +17,9 @@ namespace PlatFormColor.scripts.Player
 			base._Ready();
 
 			_stateManager = GetNode<Managers.StateManager>("%StateManager");
-			_physicsModifierList.Add(new GravityModifier(_res.GetGlobalPhysicsProperty("Gravity")));
-			_physicsModifierList.Add(new FrictionModifier(_res.GetGlobalPhysicsProperty("Friction")));
+			_physicsModifierList.Add(new GravityModifier(this, _res.GetGlobalPhysicsProperty("Gravity")));
+
+			_physicsModifierList.Add(new FrictionModifier(this));
 			_platformModifierList.Add(new PlatformColorModifier());
 			_platformModifierList.Add(new PlatformFrictionModifier());
 		}
@@ -28,7 +29,7 @@ namespace PlatFormColor.scripts.Player
 			GetNode<Label>("Label").Text = _stateManager.GetCurrentStateName();
 
 			foreach (var modifier in _physicsModifierList)
-				modifier.Apply(this, delta);
+				modifier.Apply(delta);
 
 			Platform.Platform platform = GetCollidedPlatform();
 			if (platform != null)
@@ -48,14 +49,9 @@ namespace PlatFormColor.scripts.Player
 		{
 			return new Color();
 		}
-		public virtual void ChangeFriction(float friction)
+		public float GetFriction()
 		{
-
-			return;
-		}
-		public virtual float GetFriction()
-		{
-			return 0f;
+			return _res.GetGlobalPhysicsProperty("Friction");
 		}
 
 		private Platform.Platform GetCollidedPlatform()

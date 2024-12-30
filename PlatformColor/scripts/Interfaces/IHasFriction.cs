@@ -4,6 +4,6 @@ namespace PlatFormColor.scripts.Interfaces
 {
     interface IHasFriction
     {
-        public Color GetColor();
+        public float GetFriction();
     }
 }

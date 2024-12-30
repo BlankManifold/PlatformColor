@@ -3,21 +3,22 @@ namespace PlatFormColor.scripts.Player
 {
     class PlatformFrictionModifier : Interfaces.IPlatformModifier
     {
+        private Platform.Platform _previousPlatform = null;
         public void Apply(Player player, Platform.Platform platform, double delta)
         {
-            if (
-                platform is not Interfaces.IHasFriction ||
-                player is not Interfaces.IFrictionChangeable
-                )
+            if (_previousPlatform == platform || !player.IsOnFloor())
                 return;
 
-            if (player.IsOnFloor())
+            if
+            (
+                platform is Interfaces.IHasFriction platformWithFriction &&
+                player is Interfaces.IFrictionChangeable playerFrictionChangable
+            )
             {
-                Vector2 velocity = player.Velocity;
-                velocity.X /= platform.GetFriction();
-
-                player.Velocity = velocity;
+                playerFrictionChangable.ChangeFriction(platformWithFriction.GetFriction());
             }
+
+            _previousPlatform = platform;
         }
     }
 }
