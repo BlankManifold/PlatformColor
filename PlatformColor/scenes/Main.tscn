@@ -1,13 +1,27 @@
-[gd_scene load_steps=5 format=3 uid="uid://bw4wb0ac1r2c4"]
+[gd_scene load_steps=12 format=3 uid="uid://bw4wb0ac1r2c4"]
 
 [ext_resource type="PackedScene" uid="uid://5hkyi01q3i1e" path="res://scenes/SquarePlayer.tscn" id="1_qxjpd"]
 [ext_resource type="PackedScene" uid="uid://cn4jvd1oxf1p0" path="res://scenes/Platform.tscn" id="2_aq5w0"]
+[ext_resource type="Script" path="res://scripts/Platform/PICFrictionRes.cs" id="3_r0glu"]
+[ext_resource type="Script" path="res://scripts/Platform/PICColorRes.cs" id="4_4k7db"]
+[ext_resource type="Script" path="res://scripts/Managers/LevelManager.cs" id="4_14iv4"]
+[ext_resource type="Script" path="res://scripts/Managers/PlatformsManager.cs" id="5_ecowm"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ycoim"]
-size = Vector2(1200, 30)
+[sub_resource type="Resource" id="Resource_3khnj"]
+script = ExtResource("3_r0glu")
+FrictionFactor = 0.1
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_iqpio"]
-size = Vector2(200, 100)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_whok0"]
+
+[sub_resource type="Resource" id="Resource_6r5v8"]
+script = ExtResource("3_r0glu")
+FrictionFactor = 10.0
+
+[sub_resource type="Resource" id="Resource_um08v"]
+script = ExtResource("4_4k7db")
+Color = Color(1, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fsjlq"]
 
 [node name="Main" type="Node"]
 
@@ -15,17 +29,29 @@ size = Vector2(200, 100)
 
 [node name="Floor" parent="." instance=ExtResource("2_aq5w0")]
 position = Vector2(573, 608)
-_friction = 0.1
+_size = Vector2(1500, 50)
+_interactionComponentsRes = [SubResource("Resource_3khnj")]
+metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" parent="Floor" index="0"]
-shape = SubResource("RectangleShape2D_ycoim")
+shape = SubResource("RectangleShape2D_whok0")
 
 [node name="Box1" parent="." instance=ExtResource("2_aq5w0")]
-position = Vector2(744, 549)
-_friction = 5.0
+position = Vector2(433, 543)
+_size = Vector2(200, 100)
+_interactionComponentsRes = [SubResource("Resource_6r5v8"), SubResource("Resource_um08v")]
+metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" parent="Box1" index="0"]
-shape = SubResource("RectangleShape2D_iqpio")
+shape = SubResource("RectangleShape2D_fsjlq")
+
+[node name="LevelManager" type="Node" parent="." node_paths=PackedStringArray("_player", "_platformsManager")]
+script = ExtResource("4_14iv4")
+_player = NodePath("../SquarePlayer")
+_platformsManager = NodePath("../PlatformsManager")
+
+[node name="PlatformsManager" type="Node" parent="."]
+script = ExtResource("5_ecowm")
 
 [editable path="Floor"]
 [editable path="Box1"]

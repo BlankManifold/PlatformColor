@@ -1,31 +1,42 @@
 using Godot;
+using GCs = Godot.Collections;
+using PCI = PlatFormColor.scripts.Platform.PlatformInteractionComponent;
+using PCIRes = PlatFormColor.scripts.Platform.PlatformInteractionComponentRes;
 
 namespace PlatFormColor.scripts.Platform
 {
-	public partial class Platform : StaticBody2D, Interfaces.IColorChangeable, Interfaces.IHasFriction
+	public delegate void NotifyPlayerInteraction(Platform platform, Player.Player player);
+	public partial class Platform : StaticBody2D
 	{
 		[Export]
-		private float _friction = 1.0f;
+		private Vector2 _size = new(50, 50);
+		public Vector2 Size { get { return _size; } }
+		[Export(PropertyHint.ResourceType)]
+		private GCs::Array<PCIRes> _interactionComponentsRes = new();
+		private GCs::Array<PCI> _interactionComponents = new();
+		public GCs::Array<PCI> InteractionComponents
+		{
+			get { return _interactionComponents; }
+		}
+		public event NotifyPlayerInteraction Interacted;
+
 		public override void _Ready()
 		{
-			ColorRect rect = GetNode<ColorRect>("ColorRect");
+			AddToGroup("platform");
+			_AddComponents();
+
 			RectangleShape2D shape = (RectangleShape2D)GetNode<CollisionShape2D>("CollisionShape2D").Shape;
-
-			rect.Size = shape.Size;
-			rect.Position -= rect.Size / 2.0f;
+			shape.Size = _size;
 		}
-
-		public void ChangeColor(Color color)
+		private void _AddComponents()
 		{
-			GetNode<ColorRect>("ColorRect").Color = color;
-		}
-		public Color GetColor()
-		{
-			return GetNode<ColorRect>("ColorRect").Color;
-		}
-		public float GetFriction()
-		{
-			return _friction;
+			foreach (PCIRes componentRes in _interactionComponentsRes)
+			{
+				PCI componentNode = componentRes.CreateComponent();
+				componentNode.AssignParent(this);
+				_interactionComponents.Add(componentNode);
+				GetNode<Node>("%PICs").AddChild(componentNode);
+			}
 		}
 	}
 }

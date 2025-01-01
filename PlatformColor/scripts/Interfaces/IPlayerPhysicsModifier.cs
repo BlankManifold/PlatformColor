@@ -1,5 +1,3 @@
-using Godot;
-
 namespace PlatFormColor.scripts.Interfaces
 {
     public interface IPhysicsModifier

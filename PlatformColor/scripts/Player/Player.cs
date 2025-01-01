@@ -3,10 +3,11 @@ using SCs = System.Collections.Generic;
 
 namespace PlatFormColor.scripts.Player
 {
+	public delegate void NotifyPlatformCollision(Player player, Platform.Platform platform);
 	public partial class Player : CharacterBody2D, Interfaces.IColorChangeable, Interfaces.IHasFriction, Interfaces.IHasWeight
 	{
+		public event NotifyPlatformCollision RequestPlatformHandling;
 		protected SCs::List<Interfaces.IPhysicsModifier> _physicsModifierList = new();
-		protected SCs::List<Interfaces.IPlatformModifier> _platformModifierList = new();
 		protected Managers.StateManager _stateManager;
 
 		[Export(PropertyHint.ResourceType)]
@@ -20,9 +21,6 @@ namespace PlatFormColor.scripts.Player
 
 			_physicsModifierList.Add(new GravityModifier(this));
 			_physicsModifierList.Add(new FrictionModifier(this));
-
-			_platformModifierList.Add(new PlatformColorModifier());
-			_platformModifierList.Add(new PlatformFrictionModifier());
 		}
 
 		public override void _PhysicsProcess(double delta)
@@ -33,11 +31,7 @@ namespace PlatFormColor.scripts.Player
 				modifier.Apply(delta);
 
 			Platform.Platform platform = GetCollidedPlatform();
-			if (platform != null)
-			{
-				foreach (var modifier in _platformModifierList)
-					modifier.Apply(this, platform, delta);
-			}
+			RequestPlatformHandling?.Invoke(this, platform);
 
 			MoveAndSlide();
 		}

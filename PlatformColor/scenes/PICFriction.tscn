@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://1ory2iwk2k1m"]
+
+[ext_resource type="Script" path="res://scripts/Platform/PICFriction.cs" id="1_nejli"]
+
+[node name="PCIFriction" type="Node"]
+script = ExtResource("1_nejli")
