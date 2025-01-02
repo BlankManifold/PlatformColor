@@ -12,7 +12,7 @@ namespace PlatFormColor.scripts.Platform
     {
         protected Platform _parentPlatform = null;
         protected bool _active = false;
-        protected bool Active
+        public bool Active
         {
             get { return _active; }
             set { _active = value; }
