@@ -11,6 +11,12 @@ namespace PlatFormColor.scripts.Platform
     public abstract partial class PlatformInteractionComponent : Node
     {
         protected Platform _parentPlatform = null;
+        protected bool _active = false;
+        protected bool Active
+        {
+            get { return _active; }
+            set { _active = value; }
+        }
         [Signal]
         public delegate void RequestActivationEventHandler(PIC component, bool deactivate = false);
         public abstract void Init(PCIRes res);
