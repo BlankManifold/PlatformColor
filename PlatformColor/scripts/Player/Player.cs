@@ -55,16 +55,21 @@ namespace PlatFormColor.scripts.Player
 
 		private Platform.Platform GetCollidedPlatform()
 		{
+			GetNode<Label>("Label").Text += "\n" + GetSlideCollisionCount();
+
 			if (GetSlideCollisionCount() == 0)
 				return null;
+
 
 			KinematicCollision2D collision = GetLastSlideCollision();
 			if (collision.GetCollider() is Platform.Platform platform)
 			{
+				GetNode<Label>("Label").Text += "\n platform " + platform.Name;
 				return platform;
 			}
 			else
 			{
+				GetNode<Label>("Label").Text += "\n not platform";
 				return null;
 			}
 		}
