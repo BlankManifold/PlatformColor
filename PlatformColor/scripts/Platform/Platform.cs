@@ -1,7 +1,7 @@
 using Godot;
 using GCs = Godot.Collections;
-using PCI = PlatFormColor.scripts.Platform.PlatformInteractionComponent;
-using PCIRes = PlatFormColor.scripts.Platform.PlatformInteractionComponentRes;
+using CTNI = PlatFormColor.scripts.Components.CTwoNodeInteraction;
+using CTNIRes = PlatFormColor.scripts.Resources.CTwoNodeInteractionRes;
 
 namespace PlatFormColor.scripts.Platform
 {
@@ -12,9 +12,9 @@ namespace PlatFormColor.scripts.Platform
 		private Vector2 _size = new(50, 50);
 		public Vector2 Size { get { return _size; } }
 		[Export(PropertyHint.ResourceType)]
-		private GCs::Array<PCIRes> _interactionComponentsRes = new();
-		private GCs::Array<PCI> _interactionComponents = new();
-		public GCs::Array<PCI> InteractionComponents
+		private GCs::Array<CTNIRes> _interactionComponentsRes = new();
+		private GCs::Array<CTNI> _interactionComponents = new();
+		public GCs::Array<CTNI> InteractionComponents
 		{
 			get { return _interactionComponents; }
 		}
@@ -34,9 +34,9 @@ namespace PlatFormColor.scripts.Platform
 		}
 		private void _AddComponents()
 		{
-			foreach (PCIRes componentRes in _interactionComponentsRes)
+			foreach (CTNIRes componentRes in _interactionComponentsRes)
 			{
-				PCI componentNode = componentRes.CreateComponent();
+				CTNI componentNode = componentRes.CreateComponent();
 				componentNode.AssignParent(this);
 				_interactionComponents.Add(componentNode);
 				GetNode<Node>("%PICs").AddChild(componentNode);

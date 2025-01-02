@@ -2,24 +2,24 @@
 
 [ext_resource type="PackedScene" uid="uid://5hkyi01q3i1e" path="res://scenes/SquarePlayer.tscn" id="1_qxjpd"]
 [ext_resource type="PackedScene" uid="uid://cn4jvd1oxf1p0" path="res://scenes/Platform.tscn" id="2_aq5w0"]
-[ext_resource type="Script" path="res://scripts/Platform/PICFrictionRes.cs" id="3_r0glu"]
-[ext_resource type="Script" path="res://scripts/Platform/PICColorRes.cs" id="4_4k7db"]
+[ext_resource type="Script" path="res://scripts/Resources/CFrictionRes.cs" id="3_0odus"]
 [ext_resource type="Script" path="res://scripts/Managers/LevelManager.cs" id="4_14iv4"]
+[ext_resource type="Script" path="res://scripts/Resources/CLeaveColorRes.cs" id="4_fven2"]
 [ext_resource type="Script" path="res://scripts/Managers/PlatformsManager.cs" id="5_ecowm"]
 
-[sub_resource type="Resource" id="Resource_3khnj"]
-script = ExtResource("3_r0glu")
+[sub_resource type="Resource" id="Resource_4q4cf"]
+script = ExtResource("3_0odus")
 FrictionFactor = 0.1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_whok0"]
 
-[sub_resource type="Resource" id="Resource_6r5v8"]
-script = ExtResource("3_r0glu")
+[sub_resource type="Resource" id="Resource_6hoyh"]
+script = ExtResource("3_0odus")
 FrictionFactor = 10.0
 
-[sub_resource type="Resource" id="Resource_um08v"]
-script = ExtResource("4_4k7db")
-Color = Color(1, 0, 0, 1)
+[sub_resource type="Resource" id="Resource_f6qi7"]
+script = ExtResource("4_fven2")
+Color = Color(0, 0, 0, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fsjlq"]
 
@@ -31,7 +31,7 @@ position = Vector2(422, 2)
 [node name="Floor" parent="." instance=ExtResource("2_aq5w0")]
 position = Vector2(573, 608)
 _size = Vector2(1500, 50)
-_interactionComponentsRes = [SubResource("Resource_3khnj")]
+_interactionComponentsRes = [SubResource("Resource_4q4cf")]
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" parent="Floor" index="0"]
@@ -40,7 +40,7 @@ shape = SubResource("RectangleShape2D_whok0")
 [node name="Box1" parent="." instance=ExtResource("2_aq5w0")]
 position = Vector2(433, 543)
 _size = Vector2(200, 100)
-_interactionComponentsRes = [SubResource("Resource_6r5v8"), SubResource("Resource_um08v")]
+_interactionComponentsRes = [SubResource("Resource_6hoyh"), SubResource("Resource_f6qi7")]
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" parent="Box1" index="0"]

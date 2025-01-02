@@ -1,13 +1,13 @@
 using Godot;
 using GCs = Godot.Collections;
-using PIC = PlatFormColor.scripts.Platform.PlatformInteractionComponent;
+using CTNI = PlatFormColor.scripts.Components.CTwoNodeInteraction;
 
 namespace PlatFormColor.scripts.Managers
 {
     [GlobalClass]
     public partial class PlatformsManager : Node
     {
-        private GCs::Array<PIC> _activeComponents = new();
+        private GCs::Array<CTNI> _activeComponents = new();
         private Label _label;
         private Platform.Platform _lastHandledPlatform = null;
 
@@ -21,7 +21,7 @@ namespace PlatFormColor.scripts.Managers
         public override void _Process(double delta)
         {
             _label.Text = "";
-            foreach (PIC component in _activeComponents)
+            foreach (CTNI component in _activeComponents)
             {
                 _label.Text += component.Name;
                 _label.Text += "\n";
@@ -32,7 +32,7 @@ namespace PlatFormColor.scripts.Managers
             if (_lastHandledPlatform == platform)
                 return;
 
-            foreach (PIC component in _activeComponents)
+            foreach (CTNI component in _activeComponents)
             {
                 if (component is Interfaces.IReactiveComponent reactiveComponent)
                     reactiveComponent.React(platform, player);
@@ -40,14 +40,14 @@ namespace PlatFormColor.scripts.Managers
 
             if (platform != null)
             {
-                foreach (PIC component in platform.InteractionComponents)
+                foreach (CTNI component in platform.InteractionComponents)
                     component.Apply(player);
             }
 
             _lastHandledPlatform = platform;
         }
 
-        private void _OnActivationRequest(PIC component, bool deactivate)
+        private void _OnActivationRequest(CTNI component, bool deactivate)
         {
             if (!deactivate)
             {
@@ -60,7 +60,7 @@ namespace PlatFormColor.scripts.Managers
                 return;
             }
         }
-        private void _AddToActive(PIC component)
+        private void _AddToActive(CTNI component)
         {
             if (_activeComponents.Contains(component))
                 return;
@@ -68,7 +68,7 @@ namespace PlatFormColor.scripts.Managers
             _activeComponents.Add(component);
             component.Active = true;
         }
-        private void _RemoveFromActive(PIC component)
+        private void _RemoveFromActive(CTNI component)
         {
             if (!_activeComponents.Contains(component))
                 return;
@@ -80,7 +80,7 @@ namespace PlatFormColor.scripts.Managers
         {
             foreach (Platform.Platform platform in GetTree().GetNodesInGroup("platform"))
             {
-                foreach (PIC component in platform.InteractionComponents)
+                foreach (CTNI component in platform.InteractionComponents)
                 {
                     component.RequestActivation += _OnActivationRequest;
                 }
