@@ -8,6 +8,7 @@ namespace PlatFormColor.scripts.Platform
     {
         private Color _color;
         private ColorRect _colorRect;
+        private bool _done = false;
 
         public override void Init(PCIRes res)
         {
@@ -27,6 +28,8 @@ namespace PlatFormColor.scripts.Platform
 
         public override void Apply(Player.Player player)
         {
+            if (_active)
+                return;
             if (player is not Interfaces.IHasColor)
                 return;
 
@@ -35,6 +38,8 @@ namespace PlatFormColor.scripts.Platform
 
         public void React(Platform platform, Player.Player player)
         {
+            if (!_active)
+                return;
             if (platform == null)
                 return;
             if (platform == _parentPlatform)
@@ -48,9 +53,6 @@ namespace PlatFormColor.scripts.Platform
             _color = color;
             _colorRect.Color = color;
         }
-
-
-
     }
 
 }
