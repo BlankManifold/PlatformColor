@@ -18,7 +18,6 @@ namespace PlatFormColor.scripts.Platform
 		{
 			get { return _interactionComponents; }
 		}
-		public event NotifyPlayerInteraction Interacted;
 
 		public override void _Ready()
 		{

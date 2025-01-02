@@ -34,8 +34,7 @@ namespace PlatFormColor.scripts.Managers
 
             foreach (CTNI component in _activeComponents)
             {
-                if (component is Interfaces.IReactiveComponent reactiveComponent)
-                    reactiveComponent.React(platform, player);
+                component.React(platform, player);
             }
 
             if (platform != null)

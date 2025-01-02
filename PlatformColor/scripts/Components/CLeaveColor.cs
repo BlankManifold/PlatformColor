@@ -5,11 +5,9 @@ namespace PlatFormColor.scripts.Components
 {
     public partial class CLeaveColor : CTwoNodeInteraction
     {
-        private Color _color;
         public override void Init(CTNIRes res)
         {
-            Resources.CLeaveColorRes promotedRes = res as Resources.CLeaveColorRes;
-            _color = promotedRes.Color;
+            // Resources.CLeaveColorRes promotedRes = res as Resources.CLeaveColorRes;
         }
         public override void _Ready()
         {
@@ -35,16 +33,15 @@ namespace PlatFormColor.scripts.Components
             if (body1 == _parentNode)
                 return;
 
-            ChangeColor(((Interfaces.IHasColor)body2).GetColor());
-            EmitSignal(SignalName.RequestActivation, this, true);
+            if (
+                _parentNode is Interfaces.IColorChangeable parentColorChangeable &&
+                body2 is Interfaces.IHasColor bodyWithColor
+                )
+            {
+                parentColorChangeable.ChangeColor(bodyWithColor.GetColor());
+                EmitSignal(SignalName.RequestActivation, this, true);
+            }
         }
-        public void ChangeColor(Color color)
-        {
-            _color = color;
-        }
-
-
-
     }
 
 }

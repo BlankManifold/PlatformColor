@@ -19,14 +19,13 @@ FrictionFactor = 10.0
 
 [sub_resource type="Resource" id="Resource_f6qi7"]
 script = ExtResource("4_fven2")
-Color = Color(0, 0, 0, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fsjlq"]
 
 [node name="Main" type="Node"]
 
 [node name="SquarePlayer" parent="." instance=ExtResource("1_qxjpd")]
-position = Vector2(422, 2)
+position = Vector2(30, 5)
 
 [node name="Floor" parent="." instance=ExtResource("2_aq5w0")]
 position = Vector2(573, 608)
