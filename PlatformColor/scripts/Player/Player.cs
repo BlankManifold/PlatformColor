@@ -30,10 +30,10 @@ namespace PlatFormColor.scripts.Player
 			foreach (var modifier in _physicsModifierList)
 				modifier.Apply(delta);
 
+			MoveAndSlide();
+
 			Platform.Platform platform = GetCollidedPlatform();
 			RequestPlatformHandling?.Invoke(this, platform);
-
-			MoveAndSlide();
 		}
 
 		public virtual void ChangeColor(Color color)
