@@ -6,7 +6,7 @@ using PCIRes = PlatFormColor.scripts.Platform.PlatformInteractionComponentRes;
 namespace PlatFormColor.scripts.Platform
 {
 	public delegate void NotifyPlayerInteraction(Platform platform, Player.Player player);
-	public partial class Platform : StaticBody2D
+	public partial class Platform : StaticBody2D, Interfaces.IColorChangeable
 	{
 		[Export]
 		private Vector2 _size = new(50, 50);
@@ -27,6 +27,10 @@ namespace PlatFormColor.scripts.Platform
 
 			RectangleShape2D shape = (RectangleShape2D)GetNode<CollisionShape2D>("CollisionShape2D").Shape;
 			shape.Size = _size;
+
+			ColorRect colorRect = GetNode<ColorRect>("ColorRect");
+			colorRect.Size = _size;
+			colorRect.Position -= _size / 2.0f;
 		}
 		private void _AddComponents()
 		{
@@ -37,6 +41,15 @@ namespace PlatFormColor.scripts.Platform
 				_interactionComponents.Add(componentNode);
 				GetNode<Node>("%PICs").AddChild(componentNode);
 			}
+		}
+
+		public void ChangeColor(Color color)
+		{
+			GetNode<ColorRect>("ColorRect").Color = color;
+		}
+		public Color GetColor()
+		{
+			return GetNode<ColorRect>("ColorRect").Color;
 		}
 	}
 }

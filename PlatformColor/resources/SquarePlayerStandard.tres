@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_csjwg")
-LandingColor = Color(1, 0, 0, 1)
+LandingColor = Color(1, 0, 0, 0.360784)
 DroppedColor = Color(0, 1, 0, 1)
 Size = Vector2(100, 100)
 GlobalPhysicsProperties = {

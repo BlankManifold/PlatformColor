@@ -22,8 +22,8 @@ namespace PlatFormColor.scripts.Player
         }
         public void Apply(double delta)
         {
-            if (_controlledNode.IsOnFloor())
-                return;
+            // if (_controlledNode.IsOnFloor())
+            //     return;
 
             Vector2 velocity = _controlledNode.Velocity;
             velocity += _controlledNode.GetGravity() * _weight * (float)delta;
