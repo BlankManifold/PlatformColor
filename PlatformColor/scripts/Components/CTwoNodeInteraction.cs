@@ -4,7 +4,6 @@ namespace PlatFormColor.scripts.Components
 {
     public delegate void RequestActivation(bool Deactivate = false);
 
-    [GlobalClass]
     public abstract partial class CTwoNodeInteraction : Node
     {
         protected bool _active = false;

@@ -1,5 +1,6 @@
 using Godot;
 using SCs = System.Collections.Generic;
+using GCs = Godot.Collections;
 
 namespace PlatFormColor.scripts.Player
 {
@@ -7,8 +8,8 @@ namespace PlatFormColor.scripts.Player
 	public partial class Player : CharacterBody2D, Interfaces.IColorChangeable, Interfaces.IHasFriction, Interfaces.IHasWeight
 	{
 		public event NotifyPlatformCollision RequestPlatformHandling;
-		protected SCs::List<Interfaces.IPhysicsModifier> _physicsModifierList = new();
 		protected Managers.StateManager _stateManager;
+		protected GCs::Array<Components.CBase> _components = new();
 
 		[Export(PropertyHint.ResourceType)]
 		protected Resources.PlayerRes _res = null;
@@ -19,21 +20,25 @@ namespace PlatFormColor.scripts.Player
 
 			_stateManager = GetNode<Managers.StateManager>("%StateManager");
 
-			_physicsModifierList.Add(new GravityModifier(this));
-			_physicsModifierList.Add(new FrictionModifier(this));
+
+			foreach (Node child in GetChildren())
+			{
+				if (child is Components.CBase component)
+					_components.Add(component);
+			}
 		}
 
 		public override void _PhysicsProcess(double delta)
 		{
 			GetNode<Label>("Label").Text = _stateManager.GetCurrentStateName();
 
-			foreach (var modifier in _physicsModifierList)
-				modifier.Apply(delta);
+			foreach (Components.CBase component in _components)
+				component.Apply(delta);
 
 			MoveAndSlide();
 
-			Platform.Platform platform = GetCollidedPlatform();
-			RequestPlatformHandling?.Invoke(this, platform);
+			// Platform.Platform platform = GetCollidedPlatform();
+			// RequestPlatformHandling?.Invoke(this, platform);
 		}
 
 		public virtual void ChangeColor(Color color)

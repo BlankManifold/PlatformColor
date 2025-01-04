@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bko0mmxqyivee"]
+
+[ext_resource type="Script" path="res://scripts/Components/CLRColor.cs" id="1_0fnkv"]
+
+[node name="CLRColor" type="Node"]
+script = ExtResource("1_0fnkv")

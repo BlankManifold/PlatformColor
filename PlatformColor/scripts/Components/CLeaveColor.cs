@@ -6,9 +6,7 @@ namespace PlatFormColor.scripts.Components
     public partial class CLeaveColor : CTwoNodeInteraction
     {
         public override void Init(CTNIRes res)
-        {
-            // Resources.CLeaveColorRes promotedRes = res as Resources.CLeaveColorRes;
-        }
+        { }
         public override void _Ready()
         {
             base._Ready();

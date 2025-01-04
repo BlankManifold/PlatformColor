@@ -5,11 +5,11 @@ namespace PlatFormColor.scripts.Components
 {
     public partial class CFriction : CTwoNodeInteraction// Interfaces.IReactiveComponent
     {
-        public float FrictionFactor = 0f;
+        private float _frictionFactor = 0f;
         public override void Init(CTNIRes res)
         {
             Resources.CFrictionRes promotedRes = res as Resources.CFrictionRes;
-            FrictionFactor = promotedRes.FrictionFactor;
+            _frictionFactor = promotedRes.FrictionFactor;
         }
         public override void Apply(PhysicsBody2D interactinBody)
         {
@@ -20,7 +20,7 @@ namespace PlatFormColor.scripts.Components
 
             if (interactinBody is Interfaces.IFrictionChangeable bodyFrictionChangable)
             {
-                bodyFrictionChangable.ChangeFriction(FrictionFactor);
+                bodyFrictionChangable.ChangeFriction(_frictionFactor);
                 EmitSignal(SignalName.RequestActivation, this, false);
             }
         }

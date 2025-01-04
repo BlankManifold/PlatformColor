@@ -1,49 +1,68 @@
-[gd_scene load_steps=12 format=3 uid="uid://bw4wb0ac1r2c4"]
+[gd_scene load_steps=14 format=3 uid="uid://bw4wb0ac1r2c4"]
 
 [ext_resource type="PackedScene" uid="uid://5hkyi01q3i1e" path="res://scenes/SquarePlayer.tscn" id="1_qxjpd"]
+[ext_resource type="PackedScene" uid="uid://wov2ur8mcuhp" path="res://scenes/Components/CFrictionOnPlatform.tscn" id="2_03xhd"]
 [ext_resource type="PackedScene" uid="uid://cn4jvd1oxf1p0" path="res://scenes/Platform.tscn" id="2_aq5w0"]
 [ext_resource type="Script" path="res://scripts/Resources/CFrictionRes.cs" id="3_0odus"]
+[ext_resource type="PackedScene" uid="uid://cy4tjrw57txyy" path="res://scenes/Components/CReportPlatformCollision.tscn" id="3_peo6r"]
+[ext_resource type="Script" path="res://scripts/Resources/CLRColorRes.cs" id="4_3uqch"]
 [ext_resource type="Script" path="res://scripts/Managers/LevelManager.cs" id="4_14iv4"]
 [ext_resource type="Script" path="res://scripts/Resources/CLeaveColorRes.cs" id="4_fven2"]
+[ext_resource type="PackedScene" uid="uid://djj8vyavsi5q1" path="res://scenes/Components/CGravity.tscn" id="4_jsbh7"]
 [ext_resource type="Script" path="res://scripts/Managers/PlatformsManager.cs" id="5_ecowm"]
-
-[sub_resource type="Resource" id="Resource_4q4cf"]
-script = ExtResource("3_0odus")
-FrictionFactor = 0.1
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_whok0"]
 
 [sub_resource type="Resource" id="Resource_6hoyh"]
 script = ExtResource("3_0odus")
 FrictionFactor = 10.0
 
+[sub_resource type="Resource" id="Resource_qnq3x"]
+script = ExtResource("4_3uqch")
+Color = Color(1, 0, 0, 1)
+
 [sub_resource type="Resource" id="Resource_f6qi7"]
 script = ExtResource("4_fven2")
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fsjlq"]
 
 [node name="Main" type="Node"]
 
 [node name="SquarePlayer" parent="." instance=ExtResource("1_qxjpd")]
 position = Vector2(30, 5)
 
+[node name="CFrictionOnCollision" parent="SquarePlayer" node_paths=PackedStringArray("_CReportCollision", "_controlledNode") instance=ExtResource("2_03xhd")]
+_CReportCollision = NodePath("../CReportPlatformCollision")
+_friction = 100.0
+_controlledNode = NodePath("..")
+
+[node name="CReportPlatformCollision" parent="SquarePlayer" node_paths=PackedStringArray("_controlledNode") instance=ExtResource("3_peo6r")]
+_collisionLayer = 1
+_controlledNode = NodePath("..")
+
+[node name="CGravity" parent="SquarePlayer" node_paths=PackedStringArray("_controlledNode") instance=ExtResource("4_jsbh7")]
+_weight = 2.0
+_controlledNode = NodePath("..")
+
 [node name="Floor" parent="." instance=ExtResource("2_aq5w0")]
 position = Vector2(573, 608)
+_interactivePropertiesDict = {
+1: 0.1
+}
 _size = Vector2(1500, 50)
-_interactionComponentsRes = [SubResource("Resource_4q4cf")]
 metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" parent="Floor" index="0"]
-shape = SubResource("RectangleShape2D_whok0")
+[node name="Box2" parent="." instance=ExtResource("2_aq5w0")]
+position = Vector2(758, 536)
+_size = Vector2(200, 100)
+_color = Color(1, 0, 0, 1)
+_interactionComponentsRes = [SubResource("Resource_6hoyh"), SubResource("Resource_qnq3x")]
+metadata/_edit_group_ = true
 
 [node name="Box1" parent="." instance=ExtResource("2_aq5w0")]
 position = Vector2(433, 543)
+_interactivePropertiesDict = {
+1: 10.0
+}
 _size = Vector2(200, 100)
-_interactionComponentsRes = [SubResource("Resource_6hoyh"), SubResource("Resource_f6qi7")]
+_interactionComponentsRes = [SubResource("Resource_f6qi7")]
 metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" parent="Box1" index="0"]
-shape = SubResource("RectangleShape2D_fsjlq")
 
 [node name="LevelManager" type="Node" parent="." node_paths=PackedStringArray("_player", "_platformsManager")]
 script = ExtResource("4_14iv4")
@@ -52,6 +71,3 @@ _platformsManager = NodePath("../PlatformsManager")
 
 [node name="PlatformsManager" type="Node" parent="."]
 script = ExtResource("5_ecowm")
-
-[editable path="Floor"]
-[editable path="Box1"]
