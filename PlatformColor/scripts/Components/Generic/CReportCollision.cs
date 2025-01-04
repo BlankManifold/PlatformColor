@@ -5,7 +5,7 @@ namespace PlatFormColor.scripts.Components.Generic
 {
 
     public delegate void Collided<T>(T collider);
-    public partial class CReportCollision<T> : CBase where T : PhysicsBody2D
+    public partial class CReportCollision<T> : CDynamicBase where T : PhysicsBody2D
     {
         [Export]
         protected int _collisionLayer = 0;

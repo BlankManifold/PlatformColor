@@ -1,7 +1,7 @@
 namespace PlatFormColor.scripts.Globals
 {
-    public enum InteractiveProperty
+    public enum Property
     {
-        Color, Friction
+        Color, Friction, FrictionFactor, Weight
     }
 }

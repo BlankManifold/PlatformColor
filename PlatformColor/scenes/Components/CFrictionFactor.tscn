@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3fjjpfhtlr12"]
+
+[ext_resource type="Script" path="res://scripts/Components/Generic/CFrictionFactor.cs" id="1_07kb3"]
+
+[node name="CFrictionFactor" type="Node"]
+script = ExtResource("1_07kb3")

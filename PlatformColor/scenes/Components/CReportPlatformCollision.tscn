@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://cy4tjrw57txyy"]
 
-[ext_resource type="Script" path="res://scripts/Components/CReportPlatformCollision.cs" id="1_4if1v"]
+[ext_resource type="Script" path="res://scripts/Components/PlatformDependent/CReportPlatformCollision.cs" id="1_wi5ox"]
 
 [node name="CReportPlatformCollision" type="Node"]
-script = ExtResource("1_4if1v")
+script = ExtResource("1_wi5ox")
 
 [node name="Label" type="Label" parent="."]
 offset_right = 40.0

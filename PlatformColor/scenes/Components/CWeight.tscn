@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bfo6woh8aeu7d"]
+
+[ext_resource type="Script" path="res://scripts/Components/Generic/CWeight.cs" id="1_uuyjb"]
+
+[node name="CWeight" type="Node"]
+script = ExtResource("1_uuyjb")

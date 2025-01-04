@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://wov2ur8mcuhp"]
 
-[ext_resource type="Script" path="res://scripts/Components/CFrictionOnPlatform.cs" id="1_h4pyp"]
+[ext_resource type="Script" path="res://scripts/Components/PlatformDependent/CFrictionOnPlatform.cs" id="1_ejpni"]
 
 [node name="CFrictionOnPlatform" type="Node"]
-script = ExtResource("1_h4pyp")
+script = ExtResource("1_ejpni")

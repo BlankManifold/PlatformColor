@@ -1,14 +1,16 @@
 using System.Linq;
 using Godot;
 
-namespace PlatFormColor.scripts.Components
+namespace PlatFormColor.scripts.Components.PlatformDependent
 {
     [GlobalClass]
-    public partial class CFrictionOnPlatform : Generic.CFriction2
+    public partial class CFrictionOnPlatform : Generic.CFriction
     {
         [Export]
         private CReportPlatformCollision _CReportCollision = null;
         private Platform.Platform _lastColliderBody = null;
+        [Signal]
+        public delegate void ChangeFrictionFactorEventHandler(float frictionFactor);
 
         public override string[] _GetConfigurationWarnings()
         {
@@ -31,12 +33,12 @@ namespace PlatFormColor.scripts.Components
                 return;
             if (platform == null)
             {
-                _frictionFactor = 1.0f;
+                _frictionFactor = 0.0f;
+                return;
             }
 
-            Variant? frictionFactor = platform.GetInteractiveProperties(Globals.InteractiveProperty.Friction);
-            if (frictionFactor != null)
-                _frictionFactor = (float)frictionFactor;
+            Variant? frictionFactor = platform.GetProperty(Globals.Property.FrictionFactor);
+            _frictionFactor = (frictionFactor != null) ? (float)frictionFactor : 1.0f;
         }
     }
 }

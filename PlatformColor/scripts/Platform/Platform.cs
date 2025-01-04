@@ -6,13 +6,11 @@ using System;
 
 namespace PlatFormColor.scripts.Platform
 {
-	public delegate void NotifyPlayerInteraction(Platform platform, Player.Player player);
-	public partial class Platform : StaticBody2D, Interfaces.IColorChangeable
+	public partial class Platform : StaticBody2D, Interfaces.IEntityWithProperties, Interfaces.IColorChangeable
 	{
 		[Export]
 		private Shape2D _shape = null;
-		[Export]
-		private GCs::Dictionary<Globals.InteractiveProperty, Variant> _interactivePropertiesDict = new();
+		protected GCs::Dictionary<Globals.Property, Variant> PropertiesDict = new();
 		[Export]
 		private Vector2 _size = new(50, 50);
 		public Vector2 Size { get { return _size; } }
@@ -32,10 +30,8 @@ namespace PlatFormColor.scripts.Platform
 			AddToGroup("platform");
 			_AddComponents();
 
-			RectangleShape2D shape = (RectangleShape2D)GetNode<CollisionShape2D>("CollisionShape2D").Shape.Duplicate();
-			GetNode<CollisionShape2D>("CollisionShape2D").Shape = shape;
+			GetNode<CollisionShape2D>("CollisionShape2D").Shape = _shape;
 
-			shape.Size = _size;
 
 			ColorRect colorRect = GetNode<ColorRect>("ColorRect");
 			colorRect.Size = _size;
@@ -43,6 +39,28 @@ namespace PlatFormColor.scripts.Platform
 
 			ChangeColor(_color);
 		}
+		public Variant? GetProperty(Globals.Property property)
+		{
+			if (PropertiesDict.TryGetValue(property, out Variant value))
+				return value;
+
+			return null;
+		}
+		public void AddProperty(Globals.Property property, Variant value)
+		{
+			if (PropertiesDict.ContainsKey(property))
+				return;
+
+			PropertiesDict.Add(property, value);
+		}
+		public void SetProperty(Globals.Property property, Variant value)
+		{
+			if (!PropertiesDict.ContainsKey(property))
+				return;
+
+			PropertiesDict[property] = value;
+		}
+
 		private void _AddComponents()
 		{
 			foreach (CTNIRes componentRes in _interactionComponentsRes)
@@ -52,14 +70,6 @@ namespace PlatFormColor.scripts.Platform
 				_interactionComponents.Add(componentNode);
 				GetNode<Node>("%PICs").AddChild(componentNode);
 			}
-		}
-
-		public Variant? GetInteractiveProperties(Globals.InteractiveProperty property)
-		{
-			if (_interactivePropertiesDict.TryGetValue(property, out Variant value))
-				return value;
-
-			return null;
 		}
 		public void ChangeColor(Color color)
 		{

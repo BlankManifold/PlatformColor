@@ -4,7 +4,7 @@ using Godot;
 namespace PlatFormColor.scripts.Components.Generic
 {
     [GlobalClass]
-    public partial class CFriction2 : CBase
+    public partial class CFriction : CDynamicBase
     {
         [Export]
         protected float _friction = 0f;
@@ -22,6 +22,18 @@ namespace PlatFormColor.scripts.Components.Generic
                 _ = warnings.Append<string>("Must assign a CharacterBody2D to apply friction on it.");
 
             return warnings;
+        }
+        public override void _Ready()
+        {
+            base._Ready();
+            if (_controlledNode is Interfaces.IEntityWithProperties _controlledEntity)
+            {
+                _controlledEntity.AddProperty(Globals.Property.Friction, _friction);
+            }
+            else
+            {
+                throw new System.Exception($"Cannot add Fricion component because {_controlledNode.Name} is not a IEntityWithProperties.");
+            }
         }
 
         public override void Apply(double delta)

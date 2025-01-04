@@ -1,15 +1,16 @@
 using Godot;
-using SCs = System.Collections.Generic;
 using GCs = Godot.Collections;
 
 namespace PlatFormColor.scripts.Player
 {
 	public delegate void NotifyPlatformCollision(Player player, Platform.Platform platform);
-	public partial class Player : CharacterBody2D, Interfaces.IColorChangeable, Interfaces.IHasFriction, Interfaces.IHasWeight
+	public partial class Player : CharacterBody2D, Interfaces.IEntityWithProperties, Interfaces.IColorChangeable
 	{
+		protected GCs::Dictionary<Globals.Property, Variant> PropertiesDict = new();
 		public event NotifyPlatformCollision RequestPlatformHandling;
 		protected Managers.StateManager _stateManager;
-		protected GCs::Array<Components.CBase> _components = new();
+		protected GCs::Array<Components.CBase> _dynamicComponents = new();
+		// protected GCs::Array<Components.CBase> _components = new();
 
 		[Export(PropertyHint.ResourceType)]
 		protected Resources.PlayerRes _res = null;
@@ -23,8 +24,11 @@ namespace PlatFormColor.scripts.Player
 
 			foreach (Node child in GetChildren())
 			{
-				if (child is Components.CBase component)
-					_components.Add(component);
+				// _components.Add(component);
+				if (child is Components.CDynamicBase dynamicComponent)
+				{
+					_dynamicComponents.Add(dynamicComponent);
+				}
 			}
 		}
 
@@ -32,8 +36,8 @@ namespace PlatFormColor.scripts.Player
 		{
 			GetNode<Label>("Label").Text = _stateManager.GetCurrentStateName();
 
-			foreach (Components.CBase component in _components)
-				component.Apply(delta);
+			foreach (Components.CDynamicBase dynamicComponent in _dynamicComponents)
+				dynamicComponent.Apply(delta);
 
 			MoveAndSlide();
 
@@ -49,34 +53,28 @@ namespace PlatFormColor.scripts.Player
 		{
 			return new Color();
 		}
-		public float GetFriction()
+
+		public Variant? GetProperty(Globals.Property property)
 		{
-			return _res.GetGlobalPhysicsProperty("Friction");
+			if (PropertiesDict.TryGetValue(property, out Variant value))
+				return value;
+
+			return null;
 		}
-		public float GetWeight()
+		public void AddProperty(Globals.Property property, Variant value)
 		{
-			return _res.GetGlobalPhysicsProperty("Weight");
-		}
+			if (PropertiesDict.ContainsKey(property))
+				return;
 
-		private Platform.Platform GetCollidedPlatform()
+			PropertiesDict.Add(property, value);
+		}
+		public void SetProperty(Globals.Property property, Variant value)
 		{
-			GetNode<Label>("Label").Text += "\n" + GetSlideCollisionCount();
+			if (!PropertiesDict.ContainsKey(property))
+				return;
 
-			if (GetSlideCollisionCount() == 0)
-				return null;
-
-
-			KinematicCollision2D collision = GetLastSlideCollision();
-			if (collision.GetCollider() is Platform.Platform platform)
-			{
-				GetNode<Label>("Label").Text += "\n platform " + platform.Name;
-				return platform;
-			}
-			else
-			{
-				GetNode<Label>("Label").Text += "\n not platform";
-				return null;
-			}
+			PropertiesDict[property] = value;
 		}
+
 	}
 }
