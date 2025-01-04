@@ -13,7 +13,6 @@ namespace PlatFormColor.scripts.Player
 
             ColorRect rect = GetNode<ColorRect>("ColorRect");
             rect.Size = _promotedRes.Size;
-            rect.Color = _promotedRes.LandingColor;
             rect.Position -= rect.Size / 2.0f;
 
             RectangleShape2D shape = (RectangleShape2D)GetNode<CollisionShape2D>("CollisionShape2D").Shape;
@@ -24,14 +23,19 @@ namespace PlatFormColor.scripts.Player
         {
             base._PhysicsProcess(delta);
         }
+        public override void AddProperty(Globals.Property property, Variant value)
+        {
+            base.AddProperty(property, value);
 
-        public override void ChangeColor(Color color)
-        {
-            GetNode<ColorRect>("ColorRect").Color = color;
+            if (property is Globals.Property.Color)
+                GetNode<ColorRect>("ColorRect").Color = (Color)value;
         }
-        public override Color GetColor()
+        public override void SetProperty(Globals.Property property, Variant value)
         {
-            return _promotedRes.DroppedColor;
+            base.SetProperty(property, value);
+
+            if (property is Globals.Property.Color)
+                GetNode<ColorRect>("ColorRect").Color = (Color)value;
         }
     }
 }

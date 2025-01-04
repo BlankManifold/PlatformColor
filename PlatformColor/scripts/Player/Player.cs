@@ -4,7 +4,7 @@ using GCs = Godot.Collections;
 namespace PlatFormColor.scripts.Player
 {
 	public delegate void NotifyPlatformCollision(Player player, Platform.Platform platform);
-	public partial class Player : CharacterBody2D, Interfaces.IEntityWithProperties, Interfaces.IColorChangeable
+	public partial class Player : CharacterBody2D, Interfaces.IEntityWithProperties
 	{
 		protected GCs::Dictionary<Globals.Property, Variant> PropertiesDict = new();
 		public event NotifyPlatformCollision RequestPlatformHandling;
@@ -45,15 +45,6 @@ namespace PlatFormColor.scripts.Player
 			// RequestPlatformHandling?.Invoke(this, platform);
 		}
 
-		public virtual void ChangeColor(Color color)
-		{
-			return;
-		}
-		public virtual Color GetColor()
-		{
-			return new Color();
-		}
-
 		public Variant? GetProperty(Globals.Property property)
 		{
 			if (PropertiesDict.TryGetValue(property, out Variant value))
@@ -61,14 +52,14 @@ namespace PlatFormColor.scripts.Player
 
 			return null;
 		}
-		public void AddProperty(Globals.Property property, Variant value)
+		public virtual void AddProperty(Globals.Property property, Variant value)
 		{
 			if (PropertiesDict.ContainsKey(property))
 				return;
 
 			PropertiesDict.Add(property, value);
 		}
-		public void SetProperty(Globals.Property property, Variant value)
+		public virtual void SetProperty(Globals.Property property, Variant value)
 		{
 			if (!PropertiesDict.ContainsKey(property))
 				return;

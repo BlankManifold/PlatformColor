@@ -4,10 +4,10 @@ using Godot;
 namespace PlatFormColor.scripts.Components.Generic
 {
     [GlobalClass]
-    public partial class CWeight : CBase
+    public partial class CColor : CBase
     {
         [Export]
-        protected float _weight = 0f;
+        protected Color _color;
 
         [Export]
         protected Node _controlledNode = null;
@@ -18,7 +18,7 @@ namespace PlatFormColor.scripts.Components.Generic
             warnings = base._GetConfigurationWarnings();
 
             if (_controlledNode == null)
-                _ = warnings.Append<string>("Must assign a Node that implements IEntityWithProperties interface add weight to it.");
+                _ = warnings.Append<string>("Must assign a Node that implements IEntityWithProperties interface to add color to it.");
 
             return warnings;
         }
@@ -27,16 +27,16 @@ namespace PlatFormColor.scripts.Components.Generic
             base._Ready();
             if (_controlledNode is Interfaces.IEntityWithProperties _controlledEntity)
             {
-                _controlledEntity.AddProperty(Globals.Property.Weight, _weight);
+                _controlledEntity.AddProperty(Globals.Property.Color, _color);
             }
             else
             {
-                throw new System.Exception($"Cannot add Gravity component because {_controlledNode.Name} is not a IEntityWithProperties.");
+                throw new System.Exception($"Cannot add Color component because {_controlledNode.Name} is not a IEntityWithProperties.");
             }
         }
-        public float GetWeight()
+        public Color GetColor()
         {
-            return _weight;
+            return _color;
         }
 
     }

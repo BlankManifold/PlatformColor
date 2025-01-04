@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dnugsow3aaw8h"]
+
+[ext_resource type="Script" path="res://scripts/Components/Generic/CColor.cs" id="1_5run2"]
+
+[node name="CColor" type="Node"]
+script = ExtResource("1_5run2")

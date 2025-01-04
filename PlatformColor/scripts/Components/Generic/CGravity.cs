@@ -21,7 +21,7 @@ namespace PlatFormColor.scripts.Components.Generic
             if (_controlledNode == null)
                 _ = warnings.Append<string>("Must assign a CharacterBody2D to apply gravity on it.");
             if (_CWeight == null)
-                _ = warnings.Append<string>("Must assign a CWeight component to get wieght from it.");
+                _ = warnings.Append<string>("Must assign a CWeight component to get weight from it.");
 
             return warnings;
         }

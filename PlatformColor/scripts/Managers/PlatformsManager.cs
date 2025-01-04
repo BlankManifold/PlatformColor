@@ -37,11 +37,11 @@ namespace PlatFormColor.scripts.Managers
                 component.React(platform, player);
             }
 
-            if (platform != null)
-            {
-                foreach (CTNI component in platform.InteractionComponents)
-                    component.Apply(player);
-            }
+            // if (platform != null)
+            // {
+            //     foreach (CTNI component in platform.InteractionComponents)
+            //         component.Apply(player);
+            // }
 
             _lastHandledPlatform = platform;
         }
@@ -79,10 +79,10 @@ namespace PlatFormColor.scripts.Managers
         {
             foreach (Platform.Platform platform in GetTree().GetNodesInGroup("platform"))
             {
-                foreach (CTNI component in platform.InteractionComponents)
-                {
-                    component.RequestActivation += _OnActivationRequest;
-                }
+                // foreach (CTNI component in platform.InteractionComponents)
+                // {
+                //     component.RequestActivation += _OnActivationRequest;
+                // }
             }
         }
     }
