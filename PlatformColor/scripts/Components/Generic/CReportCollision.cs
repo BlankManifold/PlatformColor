@@ -28,6 +28,9 @@ namespace PlatFormColor.scripts.Components.Generic
 
         public override void Apply(double delta)
         {
+            if (!_active)
+                return;
+
             GetNode<Label>("Label").Text = "";
             if (_controlledNode.GetSlideCollisionCount() == 0)
             {

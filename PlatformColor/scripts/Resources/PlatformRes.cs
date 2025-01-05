@@ -4,11 +4,11 @@ using GCs = Godot.Collections;
 namespace PlatFormColor.scripts.Resources
 {
     [GlobalClass]
-    public partial class PlayerRes : EntityWithPropertiesRes
+    public partial class PlatformRes : EntityWithPropertiesRes
     {
         public Vector2 GlobalPosition;
 
-        public PlayerRes(Vector2? globalPosition = null, GCs::Dictionary<Globals.Property, Variant> dict = null) : base(dict)
+        public PlatformRes(Vector2? globalPosition = null, GCs::Dictionary<Globals.Property, Variant> dict = null) : base(dict)
         {
             GlobalPosition = (globalPosition == null) ? new Vector2(0, 0) : (Vector2)globalPosition;
         }

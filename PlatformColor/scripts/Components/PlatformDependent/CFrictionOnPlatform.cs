@@ -29,6 +29,9 @@ namespace PlatFormColor.scripts.Components.PlatformDependent
 
         private void _OnCollided(Platform.Platform platform)
         {
+            if (!_active)
+                return;
+
             if (_lastColliderBody == platform)
                 return;
             if (platform == null)

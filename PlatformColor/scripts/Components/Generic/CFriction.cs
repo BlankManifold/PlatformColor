@@ -38,6 +38,9 @@ namespace PlatFormColor.scripts.Components.Generic
 
         public override void Apply(double delta)
         {
+            if (!_active)
+                return;
+
             bool movePressed = Input.IsActionPressed("player_move_left") || Input.IsActionPressed("player_move_right");
 
             if (movePressed)

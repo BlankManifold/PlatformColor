@@ -4,7 +4,7 @@ using GCs = Godot.Collections;
 
 namespace PlatFormColor.scripts.Platform
 {
-	public partial class Platform : StaticBody2D, Interfaces.IEntityWithProperties
+	public partial class Platform : StaticBody2D, Interfaces.IPropAndResEntity
 	{
 		[Export]
 		private Shape2D _shape = null;
@@ -12,6 +12,9 @@ namespace PlatFormColor.scripts.Platform
 		[Export]
 		private Vector2 _size = new(50, 50);
 		public Vector2 Size { get { return _size; } }
+
+		[Export(PropertyHint.ResourceType)]
+		protected Resources.PlatformRes _res;
 
 		public override void _Ready()
 		{
@@ -22,6 +25,9 @@ namespace PlatFormColor.scripts.Platform
 			ColorRect colorRect = GetNode<ColorRect>("ColorRect");
 			colorRect.Size = _size;
 			colorRect.Position -= _size / 2.0f;
+
+			_res ??= new Resources.PlatformRes();
+			CallDeferred(MethodName.UpdateRes);
 		}
 		public Variant? GetProperty(Globals.Property property)
 		{
@@ -50,6 +56,19 @@ namespace PlatFormColor.scripts.Platform
 			if (property is Globals.Property.Color)
 				GetNode<ColorRect>("ColorRect").Color = (Color)value;
 		}
-
+		public void LoadRes(Resources.PlatformRes res)
+		{
+			PropertiesDict = res.PropertiesDict;
+			GlobalPosition = res.GlobalPosition;
+		}
+		public void UpdateRes()
+		{
+			_res.PropertiesDict = PropertiesDict;
+			_res.GlobalPosition = GlobalPosition;
+		}
+		public void Reset()
+		{
+			LoadRes(_res);
+		}
 	}
 }

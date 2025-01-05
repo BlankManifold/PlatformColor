@@ -37,6 +37,9 @@ namespace PlatFormColor.scripts.Components.PlatformDependent
         }
         public void _OnCollided(Platform.Platform platform)
         {
+            if (!_active)
+                return;
+
             if (platform == null)
                 return;
             if (platform == _lastCollidedPlatform)
@@ -48,6 +51,7 @@ namespace PlatFormColor.scripts.Components.PlatformDependent
                 return;
             }
 
+            _lastCollidedPlatform.UpdateRes();
             _lastCollidedPlatform.SetProperty(Globals.Property.Color, _color);
             _lastCollidedPlatform = platform;
         }

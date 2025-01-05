@@ -7,7 +7,3 @@ script = ExtResource("1_csjwg")
 LandingColor = Color(1, 0, 0, 1)
 DroppedColor = Color(0, 1, 0, 1)
 Size = Vector2(100, 100)
-GlobalPhysicsProperties = {
-"friction": 100.0,
-"weight": 2.0
-}

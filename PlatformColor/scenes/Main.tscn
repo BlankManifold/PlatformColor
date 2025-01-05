@@ -5,13 +5,13 @@
 [ext_resource type="PackedScene" uid="uid://dnugsow3aaw8h" path="res://scenes/Components/CColor.tscn" id="2_8dki0"]
 [ext_resource type="PackedScene" uid="uid://cn4jvd1oxf1p0" path="res://scenes/Platform.tscn" id="2_aq5w0"]
 [ext_resource type="PackedScene" uid="uid://cy4tjrw57txyy" path="res://scenes/Components/CReportPlatformCollision.tscn" id="3_peo6r"]
-[ext_resource type="Script" path="res://scripts/Managers/LevelManager.cs" id="4_14iv4"]
 [ext_resource type="PackedScene" uid="uid://djj8vyavsi5q1" path="res://scenes/Components/CGravity.tscn" id="4_jsbh7"]
 [ext_resource type="PackedScene" uid="uid://bfo6woh8aeu7d" path="res://scenes/Components/CWeight.tscn" id="5_27dld"]
 [ext_resource type="Script" path="res://scripts/Managers/PlatformsManager.cs" id="5_ecowm"]
 [ext_resource type="PackedScene" uid="uid://chhk006qixn02" path="res://scenes/Components/CLeaveColorOnPlatform.tscn" id="6_r70nt"]
 [ext_resource type="PackedScene" uid="uid://d3fjjpfhtlr12" path="res://scenes/Components/CFrictionFactor.tscn" id="6_ti8qs"]
 [ext_resource type="PackedScene" uid="uid://k4t1kdr1rhiq" path="res://scenes/Components/CPlatformCollisionRestrictionOnColor.tscn" id="7_t7trc"]
+[ext_resource type="PackedScene" uid="uid://bj8ktic4iv8h0" path="res://scenes/LevelManager.tscn" id="11_ayk4d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0rjve"]
 size = Vector2(1500, 50)
@@ -57,6 +57,7 @@ _controlledNode = NodePath("..")
 _controlledNode = NodePath("..")
 _CColor = NodePath("../CColor")
 _CReportCollision = NodePath("../CReportPlatformCollision")
+_active = false
 
 [node name="Floor" parent="." instance=ExtResource("2_aq5w0")]
 position = Vector2(573, 608)
@@ -96,8 +97,7 @@ metadata/_edit_group_ = true
 _color = Color(1, 0, 0, 1)
 _controlledNode = NodePath("..")
 
-[node name="LevelManager" type="Node" parent="." node_paths=PackedStringArray("_player", "_platformsManager")]
-script = ExtResource("4_14iv4")
+[node name="LevelManager" parent="." node_paths=PackedStringArray("_player", "_platformsManager") instance=ExtResource("11_ayk4d")]
 _player = NodePath("../SquarePlayer")
 _platformsManager = NodePath("../PlatformsManager")
 

@@ -4,12 +4,12 @@ using GCs = Godot.Collections;
 namespace PlatFormColor.scripts.Player
 {
 	public delegate void NotifyPlatformCollision(Player player, Platform.Platform platform);
-	public partial class Player : CharacterBody2D, Interfaces.IEntityWithProperties
+	public partial class Player : CharacterBody2D, Interfaces.IPropAndResEntity
 	{
 		protected GCs::Dictionary<Globals.Property, Variant> PropertiesDict = new();
 		public event NotifyPlatformCollision RequestPlatformHandling;
 		protected Managers.StateManager _stateManager;
-		protected GCs::Array<Components.CBase> _dynamicComponents = new();
+		protected GCs::Array<Components.CDynamicBase> _dynamicComponents = new();
 		// protected GCs::Array<Components.CBase> _components = new();
 
 		[Export(PropertyHint.ResourceType)]
@@ -20,16 +20,15 @@ namespace PlatFormColor.scripts.Player
 			base._Ready();
 
 			_stateManager = GetNode<Managers.StateManager>("%StateManager");
-
+			_res ??= new Resources.PlayerRes();
 
 			foreach (Node child in GetChildren())
 			{
 				// _components.Add(component);
 				if (child is Components.CDynamicBase dynamicComponent)
-				{
 					_dynamicComponents.Add(dynamicComponent);
-				}
 			}
+
 		}
 
 		public override void _PhysicsProcess(double delta)
@@ -67,5 +66,24 @@ namespace PlatFormColor.scripts.Player
 			PropertiesDict[property] = value;
 		}
 
+		public void LoadRes(Resources.PlayerRes res)
+		{
+			PropertiesDict = res.PropertiesDict;
+			GlobalPosition = res.GlobalPosition;
+		}
+		public void UpdateRes()
+		{
+			_res.PropertiesDict = PropertiesDict;
+			_res.GlobalPosition = GlobalPosition;
+		}
+		public void Reset()
+		{
+			LoadRes(_res);
+		}
+		public void ActivateComponents(bool active = true)
+		{
+			foreach (Components.CDynamicBase component in _dynamicComponents)
+				component.Activate(active);
+		}
 	}
 }

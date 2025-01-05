@@ -3,12 +3,13 @@ using Godot;
 
 namespace PlatFormColor.scripts.Components.Generic
 {
-    public abstract partial class CCollisionRestriction<T> : CDynamicBase where T : PhysicsBody2D
+    public abstract partial class CCollisionRestriction<T> : CBase where T : PhysicsBody2D
     {
         [Export]
         protected CharacterBody2D _controlledNode = null;
 
         protected Vector2? _lastValidPosition;
+        protected T _lastCollider = null;
 
         public override string[] _GetConfigurationWarnings()
         {
@@ -26,14 +27,11 @@ namespace PlatFormColor.scripts.Components.Generic
             _ConnectReportCollsion();
         }
 
-        public override void Apply(double delta)
+        protected virtual void _OnCollided(T collider)
         {
-            if (_controlledNode.IsOnFloor())
-                _lastValidPosition = _controlledNode.GlobalPosition;
-        }
+            if (!_active)
+                return;
 
-        public void _OnCollided(T collider)
-        {
             if (_IsCollisionAllowed(collider))
                 return;
 

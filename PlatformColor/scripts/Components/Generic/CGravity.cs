@@ -34,6 +34,9 @@ namespace PlatFormColor.scripts.Components.Generic
 
         public override void Apply(double delta)
         {
+            if (!_active)
+                return;
+
             Vector2 velocity = _controlledNode.Velocity;
             velocity += _controlledNode.GetGravity() * _weight * (float)delta;
 
