@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scripts/Managers/LevelManager.cs" id="1_fcjus"]
 
 [node name="LevelManager" type="Node"]
+process_mode = 3
 script = ExtResource("1_fcjus")
 
 [node name="ResetTimer" type="Timer" parent="."]

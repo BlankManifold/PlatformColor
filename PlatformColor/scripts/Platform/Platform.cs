@@ -68,7 +68,12 @@ namespace PlatFormColor.scripts.Platform
 		}
 		public void Reset()
 		{
-			LoadRes(_res);
+			PropertiesDict = new();
+			foreach (var item in _res.PropertiesDict)
+				AddProperty(item.Key, item.Value);
+
+			GlobalPosition = _res.GlobalPosition;
+
 		}
 	}
 }

@@ -7,6 +7,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i13g6"]
 
 [node name="SquarePlayer" instance=ExtResource("1_ao1h2")]
+process_mode = 1
 script = ExtResource("2_ded0t")
 _res = ExtResource("3_fp0yv")
 

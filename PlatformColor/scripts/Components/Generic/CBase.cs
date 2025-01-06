@@ -10,5 +10,9 @@ namespace PlatFormColor.scripts.Components
         {
             _active = active;
         }
+        public virtual void Reset()
+        {
+            return;
+        }
     }
 }

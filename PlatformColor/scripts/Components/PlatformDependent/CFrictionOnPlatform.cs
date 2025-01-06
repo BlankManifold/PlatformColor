@@ -43,5 +43,9 @@ namespace PlatFormColor.scripts.Components.PlatformDependent
             Variant? frictionFactor = platform.GetProperty(Globals.Property.FrictionFactor);
             _frictionFactor = (frictionFactor != null) ? (float)frictionFactor : 1.0f;
         }
+        public override void Reset()
+        {
+            _lastColliderBody = null;
+        }
     }
 }

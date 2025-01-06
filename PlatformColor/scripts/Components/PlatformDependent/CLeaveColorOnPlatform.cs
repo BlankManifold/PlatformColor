@@ -55,6 +55,10 @@ namespace PlatFormColor.scripts.Components.PlatformDependent
             _lastCollidedPlatform.SetProperty(Globals.Property.Color, _color);
             _lastCollidedPlatform = platform;
         }
+        public override void Reset()
+        {
+            _lastCollidedPlatform = null;
+        }
 
     }
 }

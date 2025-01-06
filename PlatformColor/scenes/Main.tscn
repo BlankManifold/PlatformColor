@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bw4wb0ac1r2c4"]
+[gd_scene load_steps=17 format=3 uid="uid://bw4wb0ac1r2c4"]
 
 [ext_resource type="PackedScene" uid="uid://5hkyi01q3i1e" path="res://scenes/SquarePlayer.tscn" id="1_qxjpd"]
 [ext_resource type="PackedScene" uid="uid://wov2ur8mcuhp" path="res://scenes/Components/CFrictionOnPlatform.tscn" id="2_03xhd"]
@@ -8,10 +8,14 @@
 [ext_resource type="PackedScene" uid="uid://djj8vyavsi5q1" path="res://scenes/Components/CGravity.tscn" id="4_jsbh7"]
 [ext_resource type="PackedScene" uid="uid://bfo6woh8aeu7d" path="res://scenes/Components/CWeight.tscn" id="5_27dld"]
 [ext_resource type="Script" path="res://scripts/Managers/PlatformsManager.cs" id="5_ecowm"]
+[ext_resource type="Script" path="res://scripts/Resources/PlatformCollisionRestrictionOnColorRes.cs" id="6_m3qw2"]
 [ext_resource type="PackedScene" uid="uid://chhk006qixn02" path="res://scenes/Components/CLeaveColorOnPlatform.tscn" id="6_r70nt"]
 [ext_resource type="PackedScene" uid="uid://d3fjjpfhtlr12" path="res://scenes/Components/CFrictionFactor.tscn" id="6_ti8qs"]
-[ext_resource type="PackedScene" uid="uid://k4t1kdr1rhiq" path="res://scenes/Components/CPlatformCollisionRestrictionOnColor.tscn" id="7_t7trc"]
 [ext_resource type="PackedScene" uid="uid://bj8ktic4iv8h0" path="res://scenes/LevelManager.tscn" id="11_ayk4d"]
+
+[sub_resource type="Resource" id="Resource_wc4xd"]
+script = ExtResource("6_m3qw2")
+_allowedColor = Color(1, 0, 0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0rjve"]
 size = Vector2(1500, 50)
@@ -40,6 +44,7 @@ _controlledNode = NodePath("..")
 _CWeight = NodePath("../CWeight")
 
 [node name="CReportPlatformCollision" parent="SquarePlayer" node_paths=PackedStringArray("_controlledNode") instance=ExtResource("3_peo6r")]
+Restrictions = Array[Resource]([SubResource("Resource_wc4xd")])
 _collisionLayer = 1
 _controlledNode = NodePath("..")
 
@@ -48,16 +53,10 @@ _CReportCollision = NodePath("../CReportPlatformCollision")
 _friction = 100.0
 _controlledNode = NodePath("..")
 
-[node name="CPlatformCollisionRestrictionOnColor" parent="SquarePlayer" node_paths=PackedStringArray("_CReportCollision", "_controlledNode") instance=ExtResource("7_t7trc")]
-_allowedColor = Color(1, 0, 0, 1)
-_CReportCollision = NodePath("../CReportPlatformCollision")
-_controlledNode = NodePath("..")
-
 [node name="CLeaveColorOnPlatform" parent="SquarePlayer" node_paths=PackedStringArray("_controlledNode", "_CColor", "_CReportCollision") instance=ExtResource("6_r70nt")]
 _controlledNode = NodePath("..")
 _CColor = NodePath("../CColor")
 _CReportCollision = NodePath("../CReportPlatformCollision")
-_active = false
 
 [node name="Floor" parent="." instance=ExtResource("2_aq5w0")]
 position = Vector2(573, 608)

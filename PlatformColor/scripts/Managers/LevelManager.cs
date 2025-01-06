@@ -17,7 +17,7 @@ namespace PlatFormColor.scripts.Managers
             foreach (Node node in GetTree().GetNodesInGroup("NodeWithResetSignal"))
             {
                 Interfaces.ICanEmitReset nodeWithResetSignal = (Interfaces.ICanEmitReset)node;
-                nodeWithResetSignal.Reset += _OnReset;
+                nodeWithResetSignal.RequestReset += _OnReset;
             }
 
             _resetTimer = GetNode<Timer>("ResetTimer");
@@ -30,12 +30,19 @@ namespace PlatFormColor.scripts.Managers
         }
         private void _OnReset()
         {
+            foreach (Node node in GetChildren())
+            {
+                if (node is Components.CBase component)
+                    component.Reset();
+            }
             _player.ActivateComponents(false);
             _resetTimer.Start();
+            GetTree().Paused = true;
         }
         private void _OnResetTimerTimeout()
         {
             _player.ActivateComponents(true);
+            GetTree().Paused = false;
         }
     }
 

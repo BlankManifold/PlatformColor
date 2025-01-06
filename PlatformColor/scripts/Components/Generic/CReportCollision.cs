@@ -1,5 +1,6 @@
 using System.Linq;
 using Godot;
+using SCs = System.Collections.Generic;
 
 namespace PlatFormColor.scripts.Components.Generic
 {
@@ -12,6 +13,8 @@ namespace PlatFormColor.scripts.Components.Generic
 
         [Export]
         protected CharacterBody2D _controlledNode = null;
+
+        protected SCs::List<Resources.CollisionRestrictionRes<CharacterBody2D, T>> _genericRestrictions = new();
 
         public Collided<T> Collided;
 
@@ -43,8 +46,19 @@ namespace PlatFormColor.scripts.Components.Generic
 
             if (collision.GetCollider() is T TCollider)
             {
-                if (TCollider.GetCollisionLayerValue(_collisionLayer))
-                    Collided?.Invoke(TCollider);
+                if (!TCollider.GetCollisionLayerValue(_collisionLayer))
+                    return;
+
+                foreach (Resources.CollisionRestrictionRes<CharacterBody2D, T> restriction in _genericRestrictions)
+                {
+                    if (!restriction.IsAllowed(_controlledNode, TCollider))
+                    {
+                        GetNode<Label>("Label").Text += "Collider: NOT ALLOWED";
+                        return;
+                    }
+                }
+
+                Collided?.Invoke(TCollider);
                 GetNode<Label>("Label").Text += "Collider: " + TCollider.Name;
             }
         }
