@@ -10,7 +10,7 @@ namespace PlatFormColor.scripts.Resources
         [Export]
         private Color _allowedColor = new(1, 0, 0, 1);
         private Platform.Platform _lastValidPlatform = null;
-        public event NotifyAction RequestReset;
+        //public event NotifyAction RequestReset;
 
         public override bool IsAllowed(CharacterBody2D controlledNode, Platform.Platform platform)
         {

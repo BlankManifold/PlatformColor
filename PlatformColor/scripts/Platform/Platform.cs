@@ -8,13 +8,15 @@ namespace PlatFormColor.scripts.Platform
 	{
 		[Export]
 		private Shape2D _shape = null;
-		protected GCs::Dictionary<Globals.Property, Variant> PropertiesDict = new();
 		[Export]
 		private Vector2 _size = new(50, 50);
 		public Vector2 Size { get { return _size; } }
 
 		[Export(PropertyHint.ResourceType)]
 		protected Resources.PlatformRes _res;
+
+		protected GCs::Array<Components.CDynamicBase> _dynamicComponents = new();
+		protected GCs::Dictionary<Globals.Property, Variant> PropertiesDict = new();
 
 		public override void _Ready()
 		{
@@ -26,9 +28,25 @@ namespace PlatFormColor.scripts.Platform
 			colorRect.Size = _size;
 			colorRect.Position -= _size / 2.0f;
 
+			foreach (Node child in GetChildren())
+			{
+				// _components.Add(component);
+				if (child is Components.CDynamicBase dynamicComponent)
+					_dynamicComponents.Add(dynamicComponent);
+			}
+
 			_res ??= new Resources.PlatformRes();
 			CallDeferred(MethodName.UpdateRes);
 		}
+		public override void _PhysicsProcess(double delta)
+		{
+			foreach (Components.CDynamicBase dynamicComponent in _dynamicComponents)
+				dynamicComponent.Apply(delta);
+
+			// Platform.Platform platform = GetCollidedPlatform();
+			// RequestPlatformHandling?.Invoke(this, platform);
+		}
+
 		public Variant? GetProperty(Globals.Property property)
 		{
 			if (PropertiesDict.TryGetValue(property, out Variant value))

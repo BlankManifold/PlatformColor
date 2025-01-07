@@ -13,7 +13,7 @@ namespace PlatFormColor.scripts.Managers
 
         public override void _Ready()
         {
-            _player.RequestPlatformHandling += _platformsManager.OnHandlingRequest;
+            // _player.RequestPlatformHandling += _platformsManager.OnHandlingRequest;
             foreach (Node node in GetTree().GetNodesInGroup("NodeWithResetSignal"))
             {
                 Interfaces.ICanEmitReset nodeWithResetSignal = (Interfaces.ICanEmitReset)node;

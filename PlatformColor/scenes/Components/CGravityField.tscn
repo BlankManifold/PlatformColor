@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3724yqc3xurd"]
+
+[ext_resource type="Script" path="res://scripts/Components/Generic/CGravityField.cs" id="1_46tdj"]
+
+[node name="CGravityField" type="Node"]
+script = ExtResource("1_46tdj")
+
+[node name="Area2D" type="Area2D" parent="."]
+gravity_space_override = 3
+gravity_point = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0

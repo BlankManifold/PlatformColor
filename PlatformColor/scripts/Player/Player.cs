@@ -7,7 +7,7 @@ namespace PlatFormColor.scripts.Player
 	public partial class Player : CharacterBody2D, Interfaces.IPropAndResEntity
 	{
 		protected GCs::Dictionary<Globals.Property, Variant> PropertiesDict = new();
-		public event NotifyPlatformCollision RequestPlatformHandling;
+		//public event NotifyPlatformCollision RequestPlatformHandling;
 		protected Managers.StateManager _stateManager;
 		protected GCs::Array<Components.CDynamicBase> _dynamicComponents = new();
 		// protected GCs::Array<Components.CBase> _components = new();

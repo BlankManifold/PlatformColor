@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://k4t1kdr1rhiq"]
-
-[ext_resource type="Script" path="res://scripts/Components/PlatformDependent/CPlatformCollisionRestrictionOnColor.cs" id="1_abrg3"]
-
-[node name="CPlatformCollisionRestrictionOnColor" type="Node"]
-script = ExtResource("1_abrg3")

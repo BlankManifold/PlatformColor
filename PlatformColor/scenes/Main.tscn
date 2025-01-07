@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bw4wb0ac1r2c4"]
+[gd_scene load_steps=20 format=3 uid="uid://bw4wb0ac1r2c4"]
 
 [ext_resource type="PackedScene" uid="uid://5hkyi01q3i1e" path="res://scenes/SquarePlayer.tscn" id="1_qxjpd"]
 [ext_resource type="PackedScene" uid="uid://wov2ur8mcuhp" path="res://scenes/Components/CFrictionOnPlatform.tscn" id="2_03xhd"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://chhk006qixn02" path="res://scenes/Components/CLeaveColorOnPlatform.tscn" id="6_r70nt"]
 [ext_resource type="PackedScene" uid="uid://d3fjjpfhtlr12" path="res://scenes/Components/CFrictionFactor.tscn" id="6_ti8qs"]
 [ext_resource type="PackedScene" uid="uid://bj8ktic4iv8h0" path="res://scenes/LevelManager.tscn" id="11_ayk4d"]
+[ext_resource type="PackedScene" uid="uid://d3724yqc3xurd" path="res://scenes/Components/CGravityField.tscn" id="11_jw17x"]
 
 [sub_resource type="Resource" id="Resource_wc4xd"]
 script = ExtResource("6_m3qw2")
@@ -19,6 +20,12 @@ _allowedColor = Color(1, 0, 0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0rjve"]
 size = Vector2(1500, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0h2sh"]
+size = Vector2(200, 100)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fm4ln"]
+radius = 200.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e4cd1"]
 size = Vector2(200, 100)
@@ -71,6 +78,25 @@ _controlledNode = NodePath("..")
 [node name="CFrictionFactor" parent="Floor" node_paths=PackedStringArray("_controlledNode") instance=ExtResource("6_ti8qs")]
 _frictionFactor = 0.1
 _controlledNode = NodePath("..")
+
+[node name="Box3" parent="." instance=ExtResource("2_aq5w0")]
+position = Vector2(430, 45)
+_shape = SubResource("RectangleShape2D_0h2sh")
+_size = Vector2(200, 100)
+metadata/_edit_group_ = true
+
+[node name="CColor" parent="Box3" node_paths=PackedStringArray("_controlledNode") instance=ExtResource("2_8dki0")]
+_color = Color(1, 0, 0, 1)
+_controlledNode = NodePath("..")
+
+[node name="CFrictionFactor" parent="Box3" node_paths=PackedStringArray("_controlledNode") instance=ExtResource("6_ti8qs")]
+_frictionFactor = 10.0
+_controlledNode = NodePath("..")
+
+[node name="CGravityField" parent="Box3" node_paths=PackedStringArray("_sourceNode") instance=ExtResource("11_jw17x")]
+_intensity = 1000.0
+_fieldShape = SubResource("CircleShape2D_fm4ln")
+_sourceNode = NodePath("..")
 
 [node name="Box2" parent="." instance=ExtResource("2_aq5w0")]
 position = Vector2(758, 536)

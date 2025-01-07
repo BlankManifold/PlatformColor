@@ -19,7 +19,7 @@ namespace PlatFormColor.scripts.Player
 
         public void Enter(string prevStateName = null)
         {
-            if (_controlledNode.IsOnFloor())
+            if (_controlledNode.IsOnFloor() || _controlledNode.IsOnCeiling())
             {
                 Vector2 velocity = _controlledNode.Velocity;
                 velocity.Y -= JumpVelocity;
