@@ -3,7 +3,7 @@ using Godot;
 namespace PlatFormColor.scripts.Player
 {
     [GlobalClass]
-    public partial class JumpState : Node, Interfaces.IState
+    public partial class WallJumpState : Node, Interfaces.IState
     {
         public event Interfaces.Notify RequestTransition;
 
@@ -19,11 +19,17 @@ namespace PlatFormColor.scripts.Player
 
         public void Enter(string prevStateName = null)
         {
-            if (_controlledNode.IsOnFloor())
-            {
-                _controlledNode.Velocity += _controlledNode.UpDirection * JumpAcceleration;
+            Vector2 jumpDirection;
+
+            if (_controlledNode.IsOnWall())
+                jumpDirection = _controlledNode.GetWallNormal();
+            else if (_controlledNode.IsOnCeiling())
+                jumpDirection = -_controlledNode.UpDirection;
+            else
                 return;
-            }
+
+            _controlledNode.Velocity += JumpAcceleration * jumpDirection;
+            return;
         }
 
         public void Exit(string nextStateName)
@@ -33,7 +39,7 @@ namespace PlatFormColor.scripts.Player
 
         public void PhysicsProcess(double delta)
         {
-            if (_controlledNode.IsOnFloor() || _controlledNode.IsOnCeiling() || _controlledNode.IsOnWall())
+            if (_controlledNode.IsOnFloor())
             {
                 RequestTransition?.Invoke("Idle");
                 return;

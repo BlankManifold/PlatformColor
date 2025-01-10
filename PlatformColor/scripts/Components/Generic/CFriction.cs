@@ -41,9 +41,7 @@ namespace PlatFormColor.scripts.Components.Generic
             if (!_active)
                 return;
 
-            bool movePressed = Input.IsActionPressed("player_move_left") || Input.IsActionPressed("player_move_right");
-
-            if (movePressed)
+            if (Globals.InputChecker.MovePressed())
                 return;
 
             Vector2 velocity = _controlledNode.Velocity;

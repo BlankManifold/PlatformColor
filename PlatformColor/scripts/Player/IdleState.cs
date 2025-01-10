@@ -2,6 +2,7 @@ using Godot;
 
 namespace PlatFormColor.scripts.Player
 {
+    [GlobalClass]
     public partial class IdleState : Node, Interfaces.IState
     {
         public event Interfaces.Notify RequestTransition;
@@ -32,19 +33,24 @@ namespace PlatFormColor.scripts.Player
 
         private void ProcessInput()
         {
-            if (_JumpPressed())
+            if (Globals.InputChecker.JumpPressed(_controlledNode))
             {
                 RequestTransition?.Invoke("Jump");
                 return;
             }
 
-            if (_MovePressed())
+            if (Globals.InputChecker.WallJumpPressed(_controlledNode))
+            {
+                RequestTransition?.Invoke("WallJump");
+                return;
+            }
+
+            if (Globals.InputChecker.MovePressed())
             {
                 RequestTransition?.Invoke("Move");
                 return;
             }
         }
-        private bool _JumpPressed() => Input.IsActionJustPressed("player_jump") && _controlledNode.IsOnFloor();
-        private bool _MovePressed() => Input.IsActionJustPressed("player_move_right") || Input.IsActionJustPressed("player_move_left");
+
     }
 }

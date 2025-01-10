@@ -22,16 +22,17 @@ StateName = "Idle"
 [node name="JumpState" type="Node" parent="StateManager"]
 script = ExtResource("4_ddra3")
 StateName = "Jump"
-JumpVelocity = 1000.0
 
 [node name="MoveState" type="Node" parent="StateManager"]
 script = ExtResource("5_s4o1e")
 StateName = "Move"
-GroundSpeed = 400.0
-AirealSpeed = 200.0
 
-[node name="Label" type="Label" parent="."]
-offset_left = -18.0
-offset_top = -96.0
-offset_right = 22.0
-offset_bottom = -73.0
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_left = 2.0
+offset_top = 33.0
+offset_right = 42.0
+offset_bottom = 56.0
+theme_override_font_sizes/font_size = 20

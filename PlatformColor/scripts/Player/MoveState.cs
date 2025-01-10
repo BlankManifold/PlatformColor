@@ -2,6 +2,7 @@ using Godot;
 
 namespace PlatFormColor.scripts.Player
 {
+    [GlobalClass]
     public partial class MoveState : Node, Interfaces.IState
     {
         public event Interfaces.Notify RequestTransition;
@@ -13,12 +14,17 @@ namespace PlatFormColor.scripts.Player
         public string StateName { get; set; }
 
         [Export(PropertyHint.Range, "0, 1000, 50")]
-        public float GroundSpeed { get; set; }
+        public float GroundAccelaration { get; set; }
         [Export(PropertyHint.Range, "0, 1000, 50")]
-        public float AirealSpeed { get; set; }
+        public float AirealAccelaration { get; set; }
+        [Export(PropertyHint.Range, "0, 1000, 50")]
+        public float MaxGroundSpeed { get; set; }
+        [Export(PropertyHint.Range, "0, 1000, 50")]
+        public float MaxAirealSpeed { get; set; }
 
 
-        private float _speed = 0;
+        private float _acceleration = 0;
+        private float _maxSpeed = 0;
         private int _direction = 0;
 
         public void Enter(string prevStateName = null)
@@ -35,12 +41,16 @@ namespace PlatFormColor.scripts.Player
         public void PhysicsProcess(double delta)
         {
             _ProcessInput();
-            _UpdateSpeed();
+            _UpdateTypeOfMovement();
 
             Vector2 velocity = _controlledNode.Velocity;
-            velocity.X = _direction * _speed;
+            velocity.X += _direction * _acceleration * (float)delta;
+
+            //TODO non è corretto così non posso cambiare direzione se...
+            if (Mathf.Abs(velocity.X) > _maxSpeed && _direction * velocity.X > 0)
+                return;
+
             _controlledNode.Velocity = velocity;
-            return;
         }
 
         public void Process(double delta)
@@ -50,12 +60,17 @@ namespace PlatFormColor.scripts.Player
 
         private void _ProcessInput()
         {
-            if (_JumpPressed())
+            if (Globals.InputChecker.JumpPressed(_controlledNode))
             {
                 RequestTransition?.Invoke("Jump");
                 return;
             }
-            if (_MoveNotPressed())
+            if (Globals.InputChecker.WallJumpPressed(_controlledNode))
+            {
+                RequestTransition?.Invoke("WallJump");
+                return;
+            }
+            if (Globals.InputChecker.MoveNotPressed())
             {
                 RequestTransition?.Invoke("Idle");
                 return;
@@ -88,19 +103,19 @@ namespace PlatFormColor.scripts.Player
 
             return;
         }
-        private void _UpdateSpeed()
+        private void _UpdateTypeOfMovement()
         {
             if (_controlledNode.IsOnFloor())
             {
-                _speed = GroundSpeed;
+                _acceleration = GroundAccelaration;
+                _maxSpeed = MaxGroundSpeed;
             }
             else
             {
-                _speed = AirealSpeed;
+                _acceleration = AirealAccelaration;
+                _maxSpeed = MaxAirealSpeed;
             }
         }
 
-        private bool _JumpPressed() => Input.IsActionJustPressed("player_jump") && _controlledNode.IsOnFloor();
-        private bool _MoveNotPressed() => !(Input.IsActionPressed("player_move_right") || Input.IsActionPressed("player_move_left"));
     }
 }

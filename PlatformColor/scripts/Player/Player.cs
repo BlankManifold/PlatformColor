@@ -33,7 +33,17 @@ namespace PlatFormColor.scripts.Player
 
 		public override void _PhysicsProcess(double delta)
 		{
-			GetNode<Label>("Label").Text = _stateManager.GetCurrentStateName();
+			GetNode<Label>("%Label").Text = _stateManager.GetCurrentStateName();
+
+			GetNode<Label>("%Label").Text += "\n" + new Vector2I((int)Velocity.X, (int)Velocity.Y);
+			if (IsOnFloor())
+				GetNode<Label>("%Label").Text += "\nFloor";
+			else if (IsOnWall())
+				GetNode<Label>("%Label").Text += "\nWall";
+			else if (IsOnCeiling())
+				GetNode<Label>("%Label").Text += "\nCeiling";
+			else
+				GetNode<Label>("%Label").Text += "\nOther";
 
 			foreach (Components.CDynamicBase dynamicComponent in _dynamicComponents)
 				dynamicComponent.Apply(delta);

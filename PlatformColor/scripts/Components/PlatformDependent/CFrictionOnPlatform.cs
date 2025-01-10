@@ -25,23 +25,26 @@ namespace PlatFormColor.scripts.Components.PlatformDependent
         {
             base._Ready();
             _CReportCollision.Collided += _OnCollided;
+            _frictionFactor = 0.1f;
         }
 
         private void _OnCollided(Platform.Platform platform)
         {
             if (!_active)
                 return;
-
             if (_lastColliderBody == platform)
                 return;
             if (platform == null)
             {
-                _frictionFactor = 0.0f;
+                _lastColliderBody = null;
+                _frictionFactor = 0.1f;
                 return;
             }
 
             Variant? frictionFactor = platform.GetProperty(Globals.Property.FrictionFactor);
             _frictionFactor = (frictionFactor != null) ? (float)frictionFactor : 1.0f;
+
+            _lastColliderBody = platform;
         }
         public override void Reset()
         {

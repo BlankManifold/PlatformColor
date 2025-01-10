@@ -6,6 +6,8 @@
 script = ExtResource("1_46tdj")
 
 [node name="Area2D" type="Area2D" parent="."]
+monitorable = false
+priority = 1
 gravity_space_override = 3
 gravity_point = true
 

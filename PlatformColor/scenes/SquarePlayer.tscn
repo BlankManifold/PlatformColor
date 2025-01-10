@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://5hkyi01q3i1e"]
+[gd_scene load_steps=6 format=3 uid="uid://5hkyi01q3i1e"]
 
 [ext_resource type="PackedScene" uid="uid://cf10udmqsqqlt" path="res://scenes/Player.tscn" id="1_ao1h2"]
 [ext_resource type="Script" path="res://scripts/Player/SquarePlayer.cs" id="2_ded0t"]
 [ext_resource type="Resource" uid="uid://ihtq67bifsge" path="res://resources/SquarePlayerStandard.tres" id="3_fp0yv"]
+[ext_resource type="Script" path="res://scripts/Player/WallJumpState.cs" id="4_oeuki"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i13g6"]
 
@@ -19,12 +20,19 @@ _controlledNode = NodePath("../..")
 
 [node name="JumpState" parent="StateManager" index="1" node_paths=PackedStringArray("_controlledNode")]
 _controlledNode = NodePath("../..")
+JumpAcceleration = 2000.0
 
 [node name="MoveState" parent="StateManager" index="2" node_paths=PackedStringArray("_controlledNode")]
 _controlledNode = NodePath("../..")
+GroundAccelaration = 1000.0
+AirealAccelaration = 500.0
+MaxGroundSpeed = 400.0
+MaxAirealSpeed = 400.0
 
-[node name="Label" parent="." index="2"]
-offset_top = -154.0
-offset_bottom = -131.0
+[node name="WallJumpState" type="Node" parent="StateManager" index="3" node_paths=PackedStringArray("_controlledNode")]
+script = ExtResource("4_oeuki")
+_controlledNode = NodePath("../..")
+StateName = "WallJump"
+JumpAcceleration = 1000.0
 
 [node name="ColorRect" type="ColorRect" parent="." index="3"]
