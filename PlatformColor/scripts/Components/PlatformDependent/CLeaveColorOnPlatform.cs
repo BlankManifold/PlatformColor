@@ -34,6 +34,7 @@ namespace PlatFormColor.scripts.Components.PlatformDependent
             base._Ready();
             _color = _CColor.GetColor();
             _CReportCollision.Collided += _OnCollided;
+            _CColor.ChangedColor += _OnChangedColor;
         }
         public void _OnCollided(Platform.Platform platform)
         {
@@ -58,6 +59,10 @@ namespace PlatFormColor.scripts.Components.PlatformDependent
         public override void Reset()
         {
             _lastCollidedPlatform = null;
+        }
+        private void _OnChangedColor(Color color)
+        {
+            _color = color;
         }
 
     }

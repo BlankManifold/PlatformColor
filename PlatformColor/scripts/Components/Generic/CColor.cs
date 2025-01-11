@@ -8,9 +8,10 @@ namespace PlatFormColor.scripts.Components.Generic
     {
         [Export]
         protected Color _color;
-
         [Export]
         protected Node _controlledNode = null;
+        [Signal]
+        public delegate void ChangedColorEventHandler(Color _color);
 
         public override string[] _GetConfigurationWarnings()
         {
@@ -28,6 +29,7 @@ namespace PlatFormColor.scripts.Components.Generic
             if (_controlledNode is Interfaces.IEntityWithProperties _controlledEntity)
             {
                 _controlledEntity.AddProperty(Globals.Property.Color, _color);
+                _controlledEntity.SettingProperty += _OnSettingsProperty;
             }
             else
             {
@@ -37,6 +39,14 @@ namespace PlatFormColor.scripts.Components.Generic
         public Color GetColor()
         {
             return _color;
+        }
+        private void _OnSettingsProperty(Globals.Property property, Variant value)
+        {
+            if (property is Globals.Property.Color)
+            {
+                Color color = (Color)value;
+                EmitSignal(SignalName.ChangedColor, color);
+            }
         }
 
     }

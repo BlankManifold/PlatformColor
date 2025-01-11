@@ -13,13 +13,13 @@ namespace PlatFormColor.scripts.Player
         [Export]
         public string StateName { get; set; }
 
-        [Export(PropertyHint.Range, "0, 1000, 50")]
+        [Export(PropertyHint.Range, "0, 5000, 50")]
         public float GroundAccelaration { get; set; }
-        [Export(PropertyHint.Range, "0, 1000, 50")]
+        [Export(PropertyHint.Range, "0, 5000, 50")]
         public float AirealAccelaration { get; set; }
-        [Export(PropertyHint.Range, "0, 1000, 50")]
+        [Export(PropertyHint.Range, "0, 2000, 50")]
         public float MaxGroundSpeed { get; set; }
-        [Export(PropertyHint.Range, "0, 1000, 50")]
+        [Export(PropertyHint.Range, "0, 2000, 50")]
         public float MaxAirealSpeed { get; set; }
 
 
@@ -44,12 +44,10 @@ namespace PlatFormColor.scripts.Player
             _UpdateTypeOfMovement();
 
             Vector2 velocity = _controlledNode.Velocity;
-            velocity.X += _direction * _acceleration * (float)delta;
 
-            //TODO non è corretto così non posso cambiare direzione se...
-            if (Mathf.Abs(velocity.X) > _maxSpeed && _direction * velocity.X > 0)
-                return;
+            float maxSpeedFactor = _direction == Mathf.Sign(velocity.X) ? (1 - Mathf.Abs(velocity.X) / _maxSpeed) / 2 : 1f;
 
+            velocity.X += maxSpeedFactor * _direction * _acceleration * (float)delta;
             _controlledNode.Velocity = velocity;
         }
 

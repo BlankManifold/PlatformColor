@@ -18,6 +18,8 @@ namespace PlatFormColor.scripts.Platform
 		protected GCs::Array<Components.CDynamicBase> _dynamicComponents = new();
 		protected GCs::Dictionary<Globals.Property, Variant> PropertiesDict = new();
 
+		public event Interfaces.IEntityWithProperties.NotifySetProperty SettingProperty;
+
 		public override void _Ready()
 		{
 			AddToGroup("platform");

@@ -6,6 +6,7 @@ namespace PlatFormColor.scripts.Player
 	public delegate void NotifyPlatformCollision(Player player, Platform.Platform platform);
 	public partial class Player : CharacterBody2D, Interfaces.IPropAndResEntity
 	{
+		public event Interfaces.IEntityWithProperties.NotifySetProperty SettingProperty;
 		protected GCs::Dictionary<Globals.Property, Variant> PropertiesDict = new();
 		//public event NotifyPlatformCollision RequestPlatformHandling;
 		protected Managers.StateManager _stateManager;
@@ -74,6 +75,7 @@ namespace PlatFormColor.scripts.Player
 				return;
 
 			PropertiesDict[property] = value;
+			SettingProperty?.Invoke(property, value);
 		}
 
 		public void LoadRes(Resources.PlayerRes res)

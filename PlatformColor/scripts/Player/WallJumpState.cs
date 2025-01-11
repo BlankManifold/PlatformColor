@@ -39,7 +39,7 @@ namespace PlatFormColor.scripts.Player
 
         public void PhysicsProcess(double delta)
         {
-            if (_controlledNode.IsOnFloor())
+            if (_controlledNode.IsOnFloor() || _controlledNode.IsOnCeiling() || _controlledNode.IsOnWall())
             {
                 RequestTransition?.Invoke("Idle");
                 return;

@@ -12,6 +12,7 @@ namespace PlatFormColor.scripts.Resources
         private Platform.Platform _lastValidPlatform = null;
         //public event NotifyAction RequestReset;
 
+        //TODO problema: a volte mi fa  reset in posizione che non è floor, loop di reset
         public override bool IsAllowed(CharacterBody2D controlledNode, Platform.Platform platform)
         {
             if (platform == null)

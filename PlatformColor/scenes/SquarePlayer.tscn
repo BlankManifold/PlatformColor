@@ -24,10 +24,10 @@ JumpAcceleration = 2000.0
 
 [node name="MoveState" parent="StateManager" index="2" node_paths=PackedStringArray("_controlledNode")]
 _controlledNode = NodePath("../..")
-GroundAccelaration = 1000.0
+GroundAccelaration = 2000.0
 AirealAccelaration = 500.0
-MaxGroundSpeed = 400.0
-MaxAirealSpeed = 400.0
+MaxGroundSpeed = 1000.0
+MaxAirealSpeed = 600.0
 
 [node name="WallJumpState" type="Node" parent="StateManager" index="3" node_paths=PackedStringArray("_controlledNode")]
 script = ExtResource("4_oeuki")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://djj8vyavsi5q1"]
+[gd_scene load_steps=2 format=3 uid="uid://ct3sjnigpd0d1"]
 
 [ext_resource type="Script" path="res://scripts/Components/Generic/CGravity.cs" id="1_r5oh6"]
 

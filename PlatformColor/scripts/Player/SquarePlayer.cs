@@ -35,7 +35,9 @@ namespace PlatFormColor.scripts.Player
             base.SetProperty(property, value);
 
             if (property is Globals.Property.Color)
+            {
                 GetNode<ColorRect>("ColorRect").Color = (Color)value;
+            }
         }
     }
 }

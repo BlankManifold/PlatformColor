@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://bo7vsu2mnloub"]
+
+[ext_resource type="Script" path="res://scripts/Components/Generic/CGravityPlaneField.cs" id="1_ihw5i"]
+[ext_resource type="PackedScene" uid="uid://djrx2s22r1b5l" path="res://scenes/Components/CGravityField.tscn" id="1_qk1yo"]
+
+[node name="CGravityPlaneField" instance=ExtResource("1_qk1yo")]
+script = ExtResource("1_ihw5i")
