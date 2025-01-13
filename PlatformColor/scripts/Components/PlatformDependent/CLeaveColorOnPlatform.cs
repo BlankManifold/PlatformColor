@@ -6,8 +6,9 @@ namespace PlatFormColor.scripts.Components.PlatformDependent
     [GlobalClass]
     public partial class CLeaveColorOnPlatform : CBase
     {
+
         [Export]
-        protected Node _controlledNode = null;
+        protected bool _onlyOnFloor = true;
         [Export]
         protected Generic.CColor _CColor = null;
         [Export]
@@ -20,8 +21,6 @@ namespace PlatFormColor.scripts.Components.PlatformDependent
             string[] warnings = null;
             warnings = base._GetConfigurationWarnings();
 
-            if (_controlledNode == null)
-                _ = warnings.Append<string>("Must assign a Node that implements IEntityWithProperties interface add weight to it.");
             if (_CColor == null)
                 _ = warnings.Append<string>("Must assign a CColor component to get color from it.");
             if (_CReportCollision == null)
@@ -33,12 +32,15 @@ namespace PlatFormColor.scripts.Components.PlatformDependent
         {
             base._Ready();
             _color = _CColor.GetColor();
+
             _CReportCollision.Collided += _OnCollided;
             _CColor.ChangedColor += _OnChangedColor;
         }
         public void _OnCollided(Platform.Platform platform)
         {
             if (!_active)
+                return;
+            if (_onlyOnFloor && !_CReportCollision.GetControlledNode().IsOnFloor())
                 return;
 
             if (platform == null)

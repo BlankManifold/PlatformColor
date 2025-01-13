@@ -18,6 +18,7 @@
 [sub_resource type="Resource" id="Resource_wc4xd"]
 script = ExtResource("6_m3qw2")
 _allowedColor = Color(1, 0, 0, 1)
+_onlyOnFloor = true
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0rjve"]
 size = Vector2(2000, 50)
@@ -41,6 +42,12 @@ size = Vector2(200, 100)
 
 [node name="MColor" parent="." instance=ExtResource("1_eorfy")]
 position = Vector2(1443, 965)
+
+[node name="ColorRect" type="ColorRect" parent="MColor"]
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 25.0
 
 [node name="SquarePlayer" parent="." instance=ExtResource("1_qxjpd")]
 position = Vector2(658, 48)
@@ -82,8 +89,7 @@ _CReportCollision = NodePath("../CReportPlatformCollision")
 _friction = 50.0
 _controlledNode = NodePath("..")
 
-[node name="CLeaveColorOnPlatform" parent="SquarePlayer" node_paths=PackedStringArray("_controlledNode", "_CColor", "_CReportCollision") instance=ExtResource("6_r70nt")]
-_controlledNode = NodePath("..")
+[node name="CLeaveColorOnPlatform" parent="SquarePlayer" node_paths=PackedStringArray("_CColor", "_CReportCollision") instance=ExtResource("6_r70nt")]
 _CColor = NodePath("../CColor")
 _CReportCollision = NodePath("../CReportPlatformCollision")
 
@@ -98,7 +104,7 @@ _color = Color(1, 0, 0, 1)
 _controlledNode = NodePath("..")
 
 [node name="CFrictionFactor" parent="Floor" node_paths=PackedStringArray("_controlledNode") instance=ExtResource("6_ti8qs")]
-_frictionFactor = 0.1
+_frictionFactor = 0.5
 _controlledNode = NodePath("..")
 
 [node name="Box3" parent="." instance=ExtResource("2_aq5w0")]

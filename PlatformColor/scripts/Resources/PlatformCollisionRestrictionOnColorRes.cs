@@ -9,6 +9,8 @@ namespace PlatFormColor.scripts.Resources
     {
         [Export]
         private Color _allowedColor = new(1, 0, 0, 1);
+        [Export]
+        private bool _onlyOnFloor = true;
         private Platform.Platform _lastValidPlatform = null;
         //public event NotifyAction RequestReset;
 
@@ -17,11 +19,15 @@ namespace PlatFormColor.scripts.Resources
         {
             if (platform == null)
                 return true;
+            if (_onlyOnFloor && !controlledNode.IsOnFloor())
+                return true;
 
             Entity entity = (controlledNode is Entity) ? (Entity)controlledNode : null;
 
             if (platform == _lastValidPlatform)
             {
+                //TODO mettere dei checkpoint per ogni platform (un array di checkpoint)
+                // ritorna all'ultimo passsato, piu controllo sul respawn
                 entity?.UpdateRes();
                 return true;
             }

@@ -28,7 +28,10 @@ namespace PlatFormColor.scripts.Components.Generic
 
             return warnings;
         }
-
+        public CharacterBody2D GetControlledNode()
+        {
+            return _controlledNode;
+        }
         public override void Apply(double delta)
         {
             if (!_active)

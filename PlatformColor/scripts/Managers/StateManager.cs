@@ -40,6 +40,10 @@ namespace PlatFormColor.scripts.Managers
         {
             return _currentState?.StateName;
         }
+        public void Reset()
+        {
+            _ChangeState("Idle");
+        }
         #endregion
 
         #region Private Methods

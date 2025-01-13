@@ -91,6 +91,8 @@ namespace PlatFormColor.scripts.Player
 		public void Reset()
 		{
 			LoadRes(_res);
+			Velocity = new Vector2(0, 0);
+			_stateManager.Reset();
 		}
 		public void ActivateComponents(bool active = true)
 		{
