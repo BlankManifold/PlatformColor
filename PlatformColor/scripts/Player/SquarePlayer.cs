@@ -23,9 +23,9 @@ namespace PlatFormColor.scripts.Player
         {
             base._PhysicsProcess(delta);
         }
-        public override void AddProperty(Globals.Property property, Variant value)
+        public override void AddProperty(Globals.Property property, Variant value, bool changeable = true)
         {
-            base.AddProperty(property, value);
+            base.AddProperty(property, value, changeable);
 
             if (property is Globals.Property.Color)
                 GetNode<ColorRect>("ColorRect").Color = (Color)value;

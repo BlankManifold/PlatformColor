@@ -1,5 +1,6 @@
 using Godot;
-using GCs = Godot.Collections;
+using SCs = System.Collections.Generic;
+
 
 namespace PlatFormColor.scripts.Resources
 {
@@ -8,7 +9,7 @@ namespace PlatFormColor.scripts.Resources
     {
         public Vector2 GlobalPosition;
 
-        public PlatformRes(Vector2? globalPosition = null, GCs::Dictionary<Globals.Property, Variant> dict = null) : base(dict)
+        public PlatformRes(Vector2? globalPosition = null, SCs::Dictionary<Globals.Property, (Variant Value, bool Changeable)> dict = null) : base(dict)
         {
             GlobalPosition = (globalPosition == null) ? new Vector2(0, 0) : (Vector2)globalPosition;
         }

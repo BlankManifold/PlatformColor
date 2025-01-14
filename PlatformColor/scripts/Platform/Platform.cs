@@ -1,5 +1,6 @@
 using Godot;
 using GCs = Godot.Collections;
+using SCs = System.Collections.Generic;
 
 
 namespace PlatFormColor.scripts.Platform
@@ -16,7 +17,7 @@ namespace PlatFormColor.scripts.Platform
 		protected Resources.PlatformRes _res;
 
 		protected GCs::Array<Components.CDynamicBase> _dynamicComponents = new();
-		protected GCs::Dictionary<Globals.Property, Variant> PropertiesDict = new();
+		protected SCs::Dictionary<Globals.Property, (Variant Value, bool Changeable)> PropertiesDict = new();
 
 		public event Interfaces.IEntityWithProperties.NotifySetProperty SettingProperty;
 
@@ -51,17 +52,17 @@ namespace PlatFormColor.scripts.Platform
 
 		public Variant? GetProperty(Globals.Property property)
 		{
-			if (PropertiesDict.TryGetValue(property, out Variant value))
-				return value;
+			if (PropertiesDict.TryGetValue(property, out var value))
+				return value.Value;
 
 			return null;
 		}
-		public void AddProperty(Globals.Property property, Variant value)
+		public void AddProperty(Globals.Property property, Variant value, bool changeable = true)
 		{
 			if (PropertiesDict.ContainsKey(property))
 				return;
 
-			PropertiesDict.Add(property, value);
+			PropertiesDict.Add(property, (value, changeable));
 
 			if (property is Globals.Property.Color)
 				GetNode<ColorRect>("ColorRect").Color = (Color)value;
@@ -71,10 +72,18 @@ namespace PlatFormColor.scripts.Platform
 			if (!PropertiesDict.ContainsKey(property))
 				return;
 
-			PropertiesDict[property] = value;
+			PropertiesDict[property] = (value, PropertiesDict[property].Changeable);
+			SettingProperty?.Invoke(property, value);
 
 			if (property is Globals.Property.Color)
 				GetNode<ColorRect>("ColorRect").Color = (Color)value;
+		}
+		public bool IsPropertyChangeable(Globals.Property property)
+		{
+			if (PropertiesDict.TryGetValue(property, out var value))
+				return value.Changeable;
+
+			return false;
 		}
 		public void LoadRes(Resources.PlatformRes res)
 		{
@@ -88,12 +97,15 @@ namespace PlatFormColor.scripts.Platform
 		}
 		public void Reset()
 		{
+			// TODO perchè ricostruisco tutta _res? Come faccio per Player?
 			PropertiesDict = new();
 			foreach (var item in _res.PropertiesDict)
-				AddProperty(item.Key, item.Value);
+				AddProperty(item.Key, item.Value.Value, item.Value.Changeable);
 
 			GlobalPosition = _res.GlobalPosition;
 
 		}
+
+
 	}
 }

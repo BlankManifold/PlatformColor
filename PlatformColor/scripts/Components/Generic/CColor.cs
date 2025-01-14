@@ -9,6 +9,8 @@ namespace PlatFormColor.scripts.Components.Generic
         [Export]
         protected Color _color;
         [Export]
+        protected bool _isChangeable = true;
+        [Export]
         protected Node _controlledNode = null;
         [Signal]
         public delegate void ChangedColorEventHandler(Color _color);
@@ -28,7 +30,7 @@ namespace PlatFormColor.scripts.Components.Generic
             base._Ready();
             if (_controlledNode is Interfaces.IEntityWithProperties _controlledEntity)
             {
-                _controlledEntity.AddProperty(Globals.Property.Color, _color);
+                _controlledEntity.AddProperty(Globals.Property.Color, _color, _isChangeable);
                 _controlledEntity.SettingProperty += _OnSettingsProperty;
             }
             else
@@ -42,11 +44,10 @@ namespace PlatFormColor.scripts.Components.Generic
         }
         private void _OnSettingsProperty(Globals.Property property, Variant value)
         {
-            if (property is Globals.Property.Color)
-            {
-                Color color = (Color)value;
-                EmitSignal(SignalName.ChangedColor, color);
-            }
+            if (property is not Globals.Property.Color)
+                return;
+
+            EmitSignal(SignalName.ChangedColor, (Color)value);
         }
 
     }

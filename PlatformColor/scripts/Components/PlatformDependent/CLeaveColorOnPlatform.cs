@@ -14,6 +14,7 @@ namespace PlatFormColor.scripts.Components.PlatformDependent
         [Export]
         protected CReportPlatformCollision _CReportCollision = null;
         private Platform.Platform _lastCollidedPlatform = null;
+        private Platform.Platform _platformThatHasToChangeColor = null;
         private Color _color;
 
         public override string[] _GetConfigurationWarnings()
@@ -42,21 +43,25 @@ namespace PlatFormColor.scripts.Components.PlatformDependent
                 return;
             if (_onlyOnFloor && !_CReportCollision.GetControlledNode().IsOnFloor())
                 return;
-
             if (platform == null)
                 return;
-            if (platform == _lastCollidedPlatform)
+            if (_platformThatHasToChangeColor == platform)
                 return;
 
-            if (_lastCollidedPlatform == null)
-            {
+            if (_lastCollidedPlatform != platform)
                 _lastCollidedPlatform = platform;
+
+            if (_lastCollidedPlatform == _platformThatHasToChangeColor)
                 return;
+            if (_platformThatHasToChangeColor != null)
+            {
+                _platformThatHasToChangeColor.UpdateRes();
+                _platformThatHasToChangeColor.SetProperty(Globals.Property.Color, _color);
+                _platformThatHasToChangeColor = null;
             }
 
-            _lastCollidedPlatform.UpdateRes();
-            _lastCollidedPlatform.SetProperty(Globals.Property.Color, _color);
-            _lastCollidedPlatform = platform;
+            if (platform.IsPropertyChangeable(Globals.Property.Color))
+                _platformThatHasToChangeColor = platform;
         }
         public override void Reset()
         {

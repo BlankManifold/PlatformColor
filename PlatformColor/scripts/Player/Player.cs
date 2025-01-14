@@ -1,5 +1,9 @@
 using Godot;
+using PlatFormColor.scripts.Globals;
+using SCs = System.Collections.Generic;
 using GCs = Godot.Collections;
+
+
 
 namespace PlatFormColor.scripts.Player
 {
@@ -7,8 +11,7 @@ namespace PlatFormColor.scripts.Player
 	public partial class Player : CharacterBody2D, Interfaces.IPropAndResEntity
 	{
 		public event Interfaces.IEntityWithProperties.NotifySetProperty SettingProperty;
-		protected GCs::Dictionary<Globals.Property, Variant> PropertiesDict = new();
-		//public event NotifyPlatformCollision RequestPlatformHandling;
+		protected SCs::Dictionary<Property, (Variant Value, bool Changeable)> PropertiesDict = new();
 		protected Managers.StateManager _stateManager;
 		protected GCs::Array<Components.CDynamicBase> _dynamicComponents = new();
 		// protected GCs::Array<Components.CBase> _components = new();
@@ -57,27 +60,33 @@ namespace PlatFormColor.scripts.Player
 
 		public Variant? GetProperty(Globals.Property property)
 		{
-			if (PropertiesDict.TryGetValue(property, out Variant value))
-				return value;
+			if (PropertiesDict.TryGetValue(property, out var value))
+				return value.Value;
 
 			return null;
 		}
-		public virtual void AddProperty(Globals.Property property, Variant value)
+		public virtual void AddProperty(Property property, Variant value, bool changeable = true)
 		{
 			if (PropertiesDict.ContainsKey(property))
 				return;
 
-			PropertiesDict.Add(property, value);
+			PropertiesDict.Add(property, (value, changeable));
 		}
-		public virtual void SetProperty(Globals.Property property, Variant value)
+		public virtual void SetProperty(Property property, Variant value)
 		{
 			if (!PropertiesDict.ContainsKey(property))
 				return;
 
-			PropertiesDict[property] = value;
+			PropertiesDict[property] = (value, PropertiesDict[property].Changeable);
 			SettingProperty?.Invoke(property, value);
 		}
+		public bool IsPropertyChangeable(Property property)
+		{
+			if (PropertiesDict.TryGetValue(property, out var value))
+				return value.Changeable;
 
+			return false;
+		}
 		public void LoadRes(Resources.PlayerRes res)
 		{
 			PropertiesDict = res.PropertiesDict;

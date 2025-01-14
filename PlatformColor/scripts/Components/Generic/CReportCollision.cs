@@ -10,9 +10,11 @@ namespace PlatFormColor.scripts.Components.Generic
     {
         [Export]
         protected int _collisionLayer = 0;
-
+        [Export]
+        protected bool _reportNoCollision = false;
         [Export]
         protected CharacterBody2D _controlledNode = null;
+        private Label _label;
 
         protected SCs::List<Resources.CollisionRestrictionRes<CharacterBody2D, T>> _genericRestrictions = new();
 
@@ -28,6 +30,11 @@ namespace PlatFormColor.scripts.Components.Generic
 
             return warnings;
         }
+        public override void _Ready()
+        {
+            base._Ready();
+            _label = GetNode<Label>("Label");
+        }
         public CharacterBody2D GetControlledNode()
         {
             return _controlledNode;
@@ -37,11 +44,12 @@ namespace PlatFormColor.scripts.Components.Generic
             if (!_active)
                 return;
 
-            GetNode<Label>("Label").Text = "";
+            _label.Text = "";
             if (_controlledNode.GetSlideCollisionCount() == 0)
             {
-                GetNode<Label>("Label").Text += "Collider: ";
-                Collided?.Invoke(null);
+                _label.Text += "Collider: ";
+                if (_reportNoCollision)
+                    Collided?.Invoke(null);
                 return;
             }
 
@@ -56,13 +64,13 @@ namespace PlatFormColor.scripts.Components.Generic
                 {
                     if (!restriction.IsAllowed(_controlledNode, TCollider))
                     {
-                        GetNode<Label>("Label").Text += "Collider: NOT ALLOWED";
+                        _label.Text += "Collider: NOT ALLOWED";
                         return;
                     }
                 }
 
                 Collided?.Invoke(TCollider);
-                GetNode<Label>("Label").Text += "Collider: " + TCollider.Name;
+                _label.Text += "Collider: " + TCollider.Name;
             }
         }
     }
