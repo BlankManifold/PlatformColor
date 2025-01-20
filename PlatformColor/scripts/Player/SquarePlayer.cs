@@ -1,4 +1,5 @@
 using Godot;
+using GCs = Godot.Collections;
 
 namespace PlatFormColor.scripts.Player
 {
@@ -27,16 +28,36 @@ namespace PlatFormColor.scripts.Player
         {
             base.AddProperty(property, value, changeable);
 
-            if (property is Globals.Property.Color)
-                GetNode<ColorRect>("ColorRect").Color = (Color)value;
+            switch (property)
+            {
+                case Globals.Property.Color:
+                    GetNode<ColorRect>("ColorRect2").Color = (Color)value;
+                    break;
+                case Globals.Property.Colors:
+                    GCs::Array<Color> colors = (GCs::Array<Color>)value;
+                    GetNode<ColorRect>("ColorRect2").Color = colors[0];
+                    GetNode<ColorRect>("ColorRect").Color = colors[1];
+                    break;
+                default:
+                    break;
+            }
         }
         public override void SetProperty(Globals.Property property, Variant value)
         {
             base.SetProperty(property, value);
 
-            if (property is Globals.Property.Color)
+            switch (property)
             {
-                GetNode<ColorRect>("ColorRect").Color = (Color)value;
+                case Globals.Property.Color:
+                    GetNode<ColorRect>("ColorRect2").Color = (Color)value;
+                    break;
+                case Globals.Property.Colors:
+                    GCs::Array<Color> colors = (GCs::Array<Color>)value;
+                    GetNode<ColorRect>("ColorRect2").Color = colors[0];
+                    GetNode<ColorRect>("ColorRect").Color = colors[1];
+                    break;
+                default:
+                    break;
             }
         }
     }

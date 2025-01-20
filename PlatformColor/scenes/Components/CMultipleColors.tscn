@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7impshdvwvac"]
+
+[ext_resource type="Script" path="res://scripts/Components/Generic/CMultipleColors.cs" id="1_6pqsk"]
+
+[node name="CMultipleColors" type="Node"]
+script = ExtResource("1_6pqsk")

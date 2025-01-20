@@ -7,7 +7,7 @@ namespace PlatFormColor.scripts.Components.Generic
     public partial class CColor : CBase
     {
         [Export]
-        protected Color _color;
+        protected Color _color = new(0, 0, 0, 0);
         [Export]
         protected bool _isChangeable = true;
         [Export]
@@ -38,16 +38,16 @@ namespace PlatFormColor.scripts.Components.Generic
                 throw new System.Exception($"Cannot add Color component because {_controlledNode.Name} is not a IEntityWithProperties.");
             }
         }
-        public Color GetColor()
-        {
-            return _color;
-        }
-        private void _OnSettingsProperty(Globals.Property property, Variant value)
+        public virtual Color GetColor(int index = 0) => _color;
+        protected virtual void _OnSettingsProperty(Globals.Property property, Variant value)
         {
             if (property is not Globals.Property.Color)
                 return;
 
-            EmitSignal(SignalName.ChangedColor, (Color)value);
+            Color color = (Color)value;
+
+            _color = color;
+            EmitSignal(SignalName.ChangedColor, color);
         }
 
     }

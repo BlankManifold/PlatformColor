@@ -12,6 +12,8 @@ namespace PlatFormColor.scripts.Components.PlatformDependent
         [Export]
         protected Generic.CColor _CColor = null;
         [Export]
+        protected int colorIndex = 0;
+        [Export]
         protected CReportPlatformCollision _CReportCollision = null;
         private Platform.Platform _lastCollidedPlatform = null;
         private Platform.Platform _platformThatHasToChangeColor = null;
@@ -56,7 +58,7 @@ namespace PlatFormColor.scripts.Components.PlatformDependent
             if (_platformThatHasToChangeColor != null)
             {
                 _platformThatHasToChangeColor.UpdateRes();
-                _platformThatHasToChangeColor.SetProperty(Globals.Property.Color, _color);
+                _platformThatHasToChangeColor.SetProperty(Globals.Property.Color, _CColor.GetColor(colorIndex));
                 _platformThatHasToChangeColor = null;
             }
 

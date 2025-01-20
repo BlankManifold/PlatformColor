@@ -16,7 +16,7 @@ namespace PlatFormColor.scripts.Components.Generic
         protected CharacterBody2D _controlledNode = null;
         private Label _label;
 
-        protected SCs::List<Resources.CollisionRestrictionRes<CharacterBody2D, T>> _genericRestrictions = new();
+        protected SCs::List<CollisionRestrictions.CollisionRestriction<CharacterBody2D, T>> _genericRestrictions = new();
 
         public Collided<T> Collided;
 
@@ -60,7 +60,7 @@ namespace PlatFormColor.scripts.Components.Generic
                 if (!TCollider.GetCollisionLayerValue(_collisionLayer))
                     return;
 
-                foreach (Resources.CollisionRestrictionRes<CharacterBody2D, T> restriction in _genericRestrictions)
+                foreach (CollisionRestrictions.CollisionRestriction<CharacterBody2D, T> restriction in _genericRestrictions)
                 {
                     if (!restriction.IsAllowed(_controlledNode, TCollider))
                     {

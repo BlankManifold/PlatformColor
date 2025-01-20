@@ -1,18 +1,20 @@
 using Godot;
-using PlatFormColor.scripts.Interfaces;
 using Entity = PlatFormColor.scripts.Interfaces.IPropAndResEntity;
 
-namespace PlatFormColor.scripts.Resources
+namespace PlatFormColor.scripts.CollisionRestrictions
 {
     [GlobalClass]
-    public partial class PlatformCollisionRestrictionOnColorRes : PlatformCollisionRestrictionRes
+    public partial class PlatformCollisionRestrictionOnColor : PlatformCollisionRestriction
     {
         [Export]
-        private Color _allowedColor = new(1, 0, 0, 1);
-        [Export]
         private bool _onlyOnFloor = true;
+        [Export]
+        private Components.Generic.CColor _CColor = null;
+        [Export]
+        private int _colorIndex = 0;
         private Platform.Platform _lastValidPlatform = null;
         //public event NotifyAction RequestReset;
+
 
         //TODO problema: a volte mi fa  reset in posizione che non è floor, loop di reset
         public override bool IsAllowed(CharacterBody2D controlledNode, Platform.Platform platform)
@@ -33,9 +35,8 @@ namespace PlatFormColor.scripts.Resources
             }
 
             Variant? colliderColor = platform.GetProperty(Globals.Property.Color);
-            if (colliderColor == null || _allowedColor == (Color)colliderColor)
+            if (colliderColor == null || _CColor.GetColor(_colorIndex) == (Color)colliderColor)
             {
-                entity?.UpdateRes();
                 _lastValidPlatform = platform;
                 return true;
             }
